@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Data
 //@NoArgsConstructor
 //@AllArgsConstructor
-@Entity
-@Table(name = "tb_pergunta")
+//@Entity
+//@Table(name = "tb_pergunta")
 public class Pergunta {
 
 }

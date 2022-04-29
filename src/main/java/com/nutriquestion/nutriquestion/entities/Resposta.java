@@ -6,8 +6,8 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Data
-@Entity
-@Table(name = "tb_resposta")
+//@Entity
+//@Table(name = "tb_resposta")
 public class Resposta {
 
 }

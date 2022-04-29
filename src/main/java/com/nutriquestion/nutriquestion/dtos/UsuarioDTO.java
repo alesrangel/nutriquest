@@ -23,11 +23,8 @@ public class UsuarioDTO  implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
-	@NotBlank(message = "Campo obrigatorio")
 	private String nome;
-	@CPF(message = "Usar CPF válido")
 	private String cpf;
-	@Email(message = "Usar Email válido")
 	private String email;
 	
 	public UsuarioDTO(Usuario usuario) {
