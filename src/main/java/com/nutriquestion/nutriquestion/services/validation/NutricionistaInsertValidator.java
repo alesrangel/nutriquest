@@ -8,27 +8,26 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nutriquestion.nutriquestion.dtos.UsuarioInsertDTO;
-import com.nutriquestion.nutriquestion.entities.Usuario;
-import com.nutriquestion.nutriquestion.repositories.UsuarioRepository;
+import com.nutriquestion.nutriquestion.dtos.NutricionistaInsertDTO;
+import com.nutriquestion.nutriquestion.entities.Nutricionista;
+import com.nutriquestion.nutriquestion.repositories.NutricionistaRepository;
 import com.nutriquestion.nutriquestion.resources.exceptions.FieldMessage;
 
-public class UsuarioInsertValidator implements ConstraintValidator<UsuarioInserValid, UsuarioInsertDTO> {
+public class NutricionistaInsertValidator implements ConstraintValidator<UsuarioInserValid, NutricionistaInsertDTO> {
 	
 	@Autowired
-	private UsuarioRepository repository;
+	private NutricionistaRepository repository;
 	
 	@Override
-	public void initialize(UsuarioInserValid ann) {
-	}
+	public void initialize(UsuarioInserValid ann) {}
 
 	@Override
-	public boolean isValid(UsuarioInsertDTO dto, ConstraintValidatorContext context) {
+	public boolean isValid(NutricionistaInsertDTO dto, ConstraintValidatorContext context) {
 		
 		List<FieldMessage> list = new ArrayList<>();
 	
-		Usuario user = repository.findByEmail(dto.getEmail());
-		if(user != null) {
+		Nutricionista nutricionista = repository.findByEmail(dto.getEmail());
+		if(nutricionista != null) {
 			list.add(new FieldMessage("email", "Email já existe"));
 		}
 		

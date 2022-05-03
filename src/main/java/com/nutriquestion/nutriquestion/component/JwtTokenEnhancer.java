@@ -10,19 +10,19 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.stereotype.Component;
 
-import com.nutriquestion.nutriquestion.entities.Usuario;
-import com.nutriquestion.nutriquestion.repositories.UsuarioRepository;
+import com.nutriquestion.nutriquestion.entities.Nutricionista;
+import com.nutriquestion.nutriquestion.repositories.NutricionistaRepository;
 
 @Component
 public class JwtTokenEnhancer implements TokenEnhancer{
 
 	@Autowired
-	private UsuarioRepository usuarioRepository;
+	private NutricionistaRepository nutricionistaRepository;
 	
 	@Override
 	public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
 		
-		Usuario usuario = usuarioRepository.findByEmail(authentication.getName());
+		Nutricionista usuario = nutricionistaRepository.findByEmail(authentication.getName());
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("usuarioNome", usuario.getNome());

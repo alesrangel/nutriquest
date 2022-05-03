@@ -8,12 +8,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @UsuarioInserValid
-public class UsuarioInsertDTO extends UsuarioDTO{
+public class NutricionistaInsertDTO extends NutricionistaDTO{
 	private static final long serialVersionUID = 1L;
 	
 	private String senha;
 	
-	public UsuarioInsertDTO() {
+	public NutricionistaInsertDTO() {
 		super();
 	}
 }

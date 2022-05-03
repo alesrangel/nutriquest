@@ -23,10 +23,10 @@ import com.nutriquestion.nutriquestion.component.JwtTokenEnhancer;
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter{
 
-	@Value("${CLIENT_ID:nutriquestion}")
+	@Value("${CLIENT_ID:myclientid}")
 	private String clientId;
 	
-	@Value("${CLIENT_SECRET:nutriquestion123}")
+	@Value("${CLIENT_SECRET:myclientsecret}")
 	private String clientSecret;
 	
 	@Value("${JWT_DURATION:86400}")

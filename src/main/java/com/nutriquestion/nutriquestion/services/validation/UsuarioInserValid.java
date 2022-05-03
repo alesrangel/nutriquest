@@ -9,7 +9,7 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 
-@Constraint(validatedBy = UsuarioInsertValidator.class)
+@Constraint(validatedBy = NutricionistaInsertValidator.class)
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UsuarioInserValid {
