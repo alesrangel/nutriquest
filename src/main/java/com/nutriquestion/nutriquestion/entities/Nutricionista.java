@@ -1,8 +1,10 @@
 package com.nutriquestion.nutriquestion.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -15,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -45,6 +48,14 @@ public class Nutricionista implements UserDetails ,Serializable{
 	@Column(unique = true)
 	private String crn;
 	
+	@OneToMany(mappedBy = "nutricionista")
+	private List<Consulta> consultas = new ArrayList<>();
+	
+	@ManyToMany
+	@JoinTable(name = "tb_relatorios_nutricionista", 
+			joinColumns = @JoinColumn(name = "relatorio_id"),
+			inverseJoinColumns = @JoinColumn(name = "nutricionista_id"))
+	private Set<Relatorio> likes = new HashSet<>();
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "tb_nutricionista_role", 
