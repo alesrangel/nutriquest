@@ -5,6 +5,9 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -17,9 +20,14 @@ public class Resposta implements Serializable{
 	
 	@Id
 	private Long id;
-//	private Questionario questionarioId;
-////	@EmbeddedId
-//	private Questao questaoId;
-	@Column(length = 5000)
+	
+	@Column(columnDefinition = "TEXT")
 	private String resposta;
+
+	@ManyToOne
+	@JoinColumn(name = "paciente_id")
+	private Paciente paciente;
+	
+	@OneToOne(mappedBy = "resposta")
+	private Questao questao;
 }

@@ -29,8 +29,6 @@ public class NutricionistaDTO implements Serializable{
 	@NotBlank(message = "Campo obrigatorio")
 	private String crn;	
 	
-
-	Set<RoleDTO> roles = new HashSet<>();
 	
 	public NutricionistaDTO(Nutricionista entity) {
 		id = entity.getId();

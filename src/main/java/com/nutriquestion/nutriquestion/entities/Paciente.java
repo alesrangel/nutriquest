@@ -39,6 +39,11 @@ public class Paciente {
 	@OneToOne(mappedBy = "paciete", fetch = FetchType.LAZY)
 	private Consulta consulta;
 	
-	@OneToMany(mappedBy = "paciente")
+	@OneToMany(mappedBy = "paciente", fetch = FetchType.LAZY)
 	private List<Avaliacao> avaliacoes = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "" , fetch = FetchType.LAZY)
+	private List<Resposta> respostas = new ArrayList<>();
+	
+	
 }

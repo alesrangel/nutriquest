@@ -15,11 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nutriquestion.nutriquestion.dtos.NutricionistaDTO;
 import com.nutriquestion.nutriquestion.dtos.NutricionistaGetIdDTO;
 import com.nutriquestion.nutriquestion.dtos.NutricionistaInsertDTO;
-import com.nutriquestion.nutriquestion.dtos.RoleDTO;
 import com.nutriquestion.nutriquestion.entities.Nutricionista;
-import com.nutriquestion.nutriquestion.entities.Role;
 import com.nutriquestion.nutriquestion.repositories.NutricionistaRepository;
-import com.nutriquestion.nutriquestion.repositories.RoleRepository;
 import com.nutriquestion.nutriquestion.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -33,8 +30,8 @@ public class NutricionistaService implements UserDetailsService{
 	@Autowired
 	private NutricionistaRepository repository;
 	
-	@Autowired
-	private RoleRepository roleRepository;
+//	@Autowired
+//	private RoleRepository roleRepository;
 
 	
 	@Transactional
@@ -59,11 +56,11 @@ public class NutricionistaService implements UserDetailsService{
 		entity.setEmail(dto.getEmail());
 		entity.setCrn(dto.getCrn());
 		
-		entity.getRoles().clear();
-		for(RoleDTO roleDTO : dto.getRoles()) {
-			Role role = roleRepository.getOne(roleDTO.getId());
-			entity.getRoles().add(role);
-		}
+//		entity.getRoles().clear();
+//		for(RoleDTO roleDTO : dto.getRoles()) {
+//			Role role = roleRepository.getOne(roleDTO.getId());
+//			entity.getRoles().add(role);
+//		}
 	}
 
 	@Override
