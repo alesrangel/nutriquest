@@ -36,7 +36,7 @@ public class Paciente {
 	private Integer idade;
 	private String sexo;
 	
-	@OneToOne(mappedBy = "paciete", fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "paciente", fetch = FetchType.LAZY)
 	private Consulta consulta;
 	
 	@OneToMany(mappedBy = "paciente", fetch = FetchType.LAZY)

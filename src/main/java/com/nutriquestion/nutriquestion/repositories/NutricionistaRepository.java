@@ -10,5 +10,4 @@ public interface NutricionistaRepository extends JpaRepository<Nutricionista, Lo
 
 	Nutricionista findByEmail(String email);
 
-
 }

@@ -13,13 +13,13 @@ import com.nutriquestion.nutriquestion.entities.Nutricionista;
 import com.nutriquestion.nutriquestion.repositories.NutricionistaRepository;
 import com.nutriquestion.nutriquestion.resources.exceptions.FieldMessage;
 
-public class NutricionistaInsertValidator implements ConstraintValidator<UsuarioInserValid, NutricionistaInsertDTO> {
+public class NutricionistaInsertValidator implements ConstraintValidator<NutricionistaInserValid, NutricionistaInsertDTO> {
 	
 	@Autowired
 	private NutricionistaRepository repository;
 	
 	@Override
-	public void initialize(UsuarioInserValid ann) {}
+	public void initialize(NutricionistaInserValid ann) {}
 
 	@Override
 	public boolean isValid(NutricionistaInsertDTO dto, ConstraintValidatorContext context) {

@@ -2,9 +2,13 @@ package com.nutriquestion.nutriquestion.services;
 
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,6 +21,7 @@ import com.nutriquestion.nutriquestion.dtos.NutricionistaGetIdDTO;
 import com.nutriquestion.nutriquestion.dtos.NutricionistaInsertDTO;
 import com.nutriquestion.nutriquestion.entities.Nutricionista;
 import com.nutriquestion.nutriquestion.repositories.NutricionistaRepository;
+import com.nutriquestion.nutriquestion.services.exceptions.DatabaseException;
 import com.nutriquestion.nutriquestion.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -27,12 +32,11 @@ public class NutricionistaService implements UserDetailsService{
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
+	@Autowired 
+	private AuthService authService;
+	
 	@Autowired
 	private NutricionistaRepository repository;
-	
-//	@Autowired
-//	private RoleRepository roleRepository;
-
 	
 	@Transactional
 	public NutricionistaDTO insert(NutricionistaInsertDTO dto) {
@@ -45,22 +49,38 @@ public class NutricionistaService implements UserDetailsService{
 	
 	@Transactional(readOnly = true)
 	public NutricionistaGetIdDTO findById(Long id) {
+		authService.validateSelfOrAdmin(id);
 		Optional<Nutricionista> obj = repository.findById(id);
 		Nutricionista entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
 		return new NutricionistaGetIdDTO(entity);
 	}
 
+	@Transactional
+	public NutricionistaDTO update(Long id, NutricionistaDTO dto) {
+		try {
+			Nutricionista entity = repository.getOne(id);
+			copyDTOToEntity(dto, entity);
+			entity = repository.save(entity);
+			return new NutricionistaDTO(entity);
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id Not Found " + id);
+		}
+	}
 	
-	private void copyDTOToEntity(NutricionistaInsertDTO dto, Nutricionista entity) {
+	public void delete(Long id) {
+		try {
+			repository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException("Id not found " + id);
+		} catch(DataIntegrityViolationException e) {
+			throw new DatabaseException("Integrity violation");
+		}
+	}
+	
+	private void copyDTOToEntity(NutricionistaDTO dto, Nutricionista entity) {
 		entity.setNome(dto.getNome());
 		entity.setEmail(dto.getEmail());
 		entity.setCrn(dto.getCrn());
-		
-//		entity.getRoles().clear();
-//		for(RoleDTO roleDTO : dto.getRoles()) {
-//			Role role = roleRepository.getOne(roleDTO.getId());
-//			entity.getRoles().add(role);
-//		}
 	}
 
 	@Override

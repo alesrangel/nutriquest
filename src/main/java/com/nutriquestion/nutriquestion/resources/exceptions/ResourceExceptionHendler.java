@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.nutriquestion.nutriquestion.services.exceptions.DatabaseException;
+import com.nutriquestion.nutriquestion.services.exceptions.ForBiddenException;
 import com.nutriquestion.nutriquestion.services.exceptions.ResourceNotFoundException;
+import com.nutriquestion.nutriquestion.services.exceptions.UnauthorizedException;
 
 
 @ControllerAdvice
@@ -57,6 +59,18 @@ public class ResourceExceptionHendler {
 		}
 		
 		return ResponseEntity.status(status).body(err);
+	}
+	
+	@ExceptionHandler(ForBiddenException.class)
+	public ResponseEntity<OAuthCustomError> forBidden(ForBiddenException e, HttpServletRequest request){
+		OAuthCustomError err = new OAuthCustomError("Forbidden", e.getMessage());
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
+	}
+	
+	@ExceptionHandler(UnauthorizedException.class)
+	public ResponseEntity<OAuthCustomError> unauthorized(UnauthorizedException e, HttpServletRequest request){
+		OAuthCustomError err = new OAuthCustomError("Unauthorized", e.getMessage());
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(err);
 	}
 	
 }

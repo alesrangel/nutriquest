@@ -12,7 +12,7 @@ import javax.validation.Payload;
 @Constraint(validatedBy = NutricionistaInsertValidator.class)
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UsuarioInserValid {
+public @interface NutricionistaInserValid {
 	String message() default "Validation error";
 	
 	Class<?>[] groups() default{};
