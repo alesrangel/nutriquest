@@ -28,9 +28,6 @@ public class Questionario implements Serializable{
 	@Column(columnDefinition = "TEXT")
 	private String titulo;
 
-	@OneToOne(mappedBy = "paciente", fetch = FetchType.LAZY)
-	private Consulta consulta;
-
 	@OneToOne(mappedBy = "questionario", fetch = FetchType.LAZY)
 	private Avaliacao avaliacao;
 	

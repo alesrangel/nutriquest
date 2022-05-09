@@ -54,6 +54,18 @@ public class NutricionistaService implements UserDetailsService{
 		Nutricionista entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
 		return new NutricionistaGetIdDTO(entity);
 	}
+	
+	@Transactional(readOnly = true)
+	public NutricionistaGetIdDTO findByNome(String nome) {
+		Nutricionista entity = repository.findByEmail(nome);
+		return new NutricionistaGetIdDTO(entity);
+	}
+	
+	@Transactional(readOnly = true)
+	public NutricionistaDTO findByNomeDTO(String nome) {
+		Nutricionista entity = repository.findByEmail(nome);
+		return new NutricionistaDTO(entity);
+	}
 
 	@Transactional
 	public NutricionistaDTO update(Long id, NutricionistaDTO dto) {

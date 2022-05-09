@@ -9,6 +9,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -45,26 +46,18 @@ public class Nutricionista implements UserDetails ,Serializable{
 	@Column(unique = true)
 	private String crn;
 	
-	@OneToMany(mappedBy = "nutricionista")
-	private List<Consulta> consultas = new ArrayList<>();
+	@OneToMany(mappedBy = "nutricionista", fetch = FetchType.EAGER)
+	private List<Paciente> pacientes = new ArrayList<>();
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "tb_relatorios_nutricionista", 
 			joinColumns = @JoinColumn(name = "relatorio_id"),
 			inverseJoinColumns = @JoinColumn(name = "nutricionista_id"))
-	private Set<Relatorio> likes = new HashSet<>();
+	private Set<Relatorio> relarios = new HashSet<>();
 	
-//	@ManyToMany(fetch = FetchType.EAGER)
-//	@JoinTable(name = "tb_nutricionista_role", 
-//			joinColumns = @JoinColumn(name = "nutricionista_id"),
-//			inverseJoinColumns = @JoinColumn(name = "role_id")) 
-//	private Set<Role> roles = new HashSet<>();
-//	
-//	@Override
-//	public Collection<? extends GrantedAuthority> getAuthorities() {
-//		
-//		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getAuthority())).collect(Collectors.toList());
-//	}
+	@OneToMany(mappedBy = "nutricionistaAvaliacao", fetch = FetchType.EAGER)
+	private List<Avaliacao> Avaliacoes = new ArrayList<>();
+	
 
 	@Override
 	public String getUsername() {

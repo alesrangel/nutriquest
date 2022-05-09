@@ -1,8 +1,6 @@
 package com.nutriquestion.nutriquestion.dtos;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

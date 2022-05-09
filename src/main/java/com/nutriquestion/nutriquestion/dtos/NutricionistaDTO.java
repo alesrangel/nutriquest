@@ -1,8 +1,6 @@
 package com.nutriquestion.nutriquestion.dtos;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -10,12 +8,10 @@ import javax.validation.constraints.NotBlank;
 import com.nutriquestion.nutriquestion.entities.Nutricionista;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class NutricionistaDTO implements Serializable{
@@ -35,6 +31,15 @@ public class NutricionistaDTO implements Serializable{
 		nome = entity.getNome();
 		email = entity.getEmail();
 		crn = entity.getCrn();
+	}
+	
+	public static Nutricionista DtoToEntity(NutricionistaDTO dto) {
+		Nutricionista entity = new Nutricionista();
+		entity.setId(dto.getId());
+		entity.setNome(dto.getNome());
+		entity.setEmail(dto.getEmail());
+		entity.setCrn(dto.getCrn());
+		return entity;
 	}
 	
 }
