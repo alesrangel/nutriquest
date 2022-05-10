@@ -16,39 +16,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.nutriquestion.nutriquestion.dtos.QuestaoDTO;
 import com.nutriquestion.nutriquestion.dtos.QuestionarioDTO;
+import com.nutriquestion.nutriquestion.services.QuestaoService;
 import com.nutriquestion.nutriquestion.services.QuestionarioService;
 
 @RestController
-@RequestMapping(value = "/questionario")
-public class QuestionarioResource {
+@RequestMapping(value = "/questao")
+public class QuestaoResource {
 
 	@Autowired
-	private QuestionarioService questionarioService;
+	private QuestaoService questaoService;
 	
 	@PostMapping
-	public ResponseEntity<QuestionarioDTO> insert(@Valid @RequestBody QuestionarioDTO dto) {
-		QuestionarioDTO newdto = questionarioService.insert(dto);
+	public ResponseEntity<QuestaoDTO> insert(@Valid @RequestBody QuestaoDTO dto) {
+		QuestaoDTO newdto = questaoService.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(newdto.getId()).toUri();
 		return ResponseEntity.created(uri).body(newdto);
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<QuestionarioDTO> findById(@PathVariable Long id) {
-		QuestionarioDTO dto = questionarioService.findById(id);
+	public ResponseEntity<QuestaoDTO> findById(@PathVariable Long id) {
+		QuestaoDTO dto = questaoService.findById(id);
 		return ResponseEntity.ok().body(dto);
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<QuestionarioDTO> update(@PathVariable Long id, @Valid @RequestBody QuestionarioDTO dto) {
-		QuestionarioDTO newDto = questionarioService.update(id ,dto);
+	public ResponseEntity<QuestaoDTO> update(@PathVariable Long id, @Valid @RequestBody QuestaoDTO dto) {
+		QuestaoDTO newDto = questaoService.update(id ,dto);
 		return ResponseEntity.ok().body(newDto);
 	}
 	
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
-		questionarioService.delete(id);
+		questaoService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 }

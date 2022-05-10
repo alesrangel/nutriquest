@@ -2,11 +2,15 @@ package com.nutriquestion.nutriquestion.services;
 
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.nutriquestion.nutriquestion.dtos.NutricionistaDTO;
 import com.nutriquestion.nutriquestion.dtos.NutricionistaGetIdDTO;
@@ -15,6 +19,7 @@ import com.nutriquestion.nutriquestion.entities.Nutricionista;
 import com.nutriquestion.nutriquestion.entities.Paciente;
 import com.nutriquestion.nutriquestion.repositories.NutricionistaRepository;
 import com.nutriquestion.nutriquestion.repositories.PacienteRepository;
+import com.nutriquestion.nutriquestion.services.exceptions.DatabaseException;
 import com.nutriquestion.nutriquestion.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -29,6 +34,7 @@ public class PacienteService {
 	@Autowired
 	private NutricionistaRepository nutricionistaRepository;
 	
+	@Transactional
 	public PacienteDTO insert(@Valid PacienteDTO dto) {
 		Paciente entity = new Paciente();
 		String nutriNome  = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -40,6 +46,35 @@ public class PacienteService {
 		entity.setNutricionista(NutricionistaDTO.DtoToEntity(nutriDTO));
 		entity = pacienteRepository.save(entity);
 		return new PacienteDTO(entity);
+	}
+	
+	@Transactional(readOnly = true)
+	public PacienteDTO findById(Long id) {
+		Optional<Paciente> obj = pacienteRepository.findById(id);
+		Paciente entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+		return new PacienteDTO(entity);
+	}
+	
+	@Transactional
+	public PacienteDTO update(Long id, PacienteDTO dto) {
+		try {
+			Paciente entity = pacienteRepository.getOne(id);
+			copyDTOToEntity(dto, entity);
+			entity = pacienteRepository.save(entity);
+			return new PacienteDTO(entity);
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id Not Found " + id);
+		}
+	}
+	
+	public void delete(Long id) {
+		try {
+			pacienteRepository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException("Id not found " + id);
+		} catch(DataIntegrityViolationException e) {
+			throw new DatabaseException("Integrity violation");
+		}
 	}
 	
 	private void copyDTOToEntity(PacienteDTO dto, Paciente entity) {
