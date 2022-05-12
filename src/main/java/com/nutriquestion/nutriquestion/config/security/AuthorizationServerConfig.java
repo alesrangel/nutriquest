@@ -52,13 +52,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
-	@Autowired
-	private CorsFilter corsFilter;
-	
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-//		security.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
-		security.addTokenEndpointAuthenticationFilter(this.corsFilter);
+		security.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
 	}
 
 	@Override
