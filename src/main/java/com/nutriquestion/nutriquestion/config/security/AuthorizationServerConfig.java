@@ -16,6 +16,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.web.filter.CorsFilter;
 
 import com.nutriquestion.nutriquestion.component.JwtTokenEnhancer;
 
@@ -51,9 +52,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
+	@Autowired
+	private CorsFilter corsFilter;
+	
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-		security.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
+//		security.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
+		security.addTokenEndpointAuthenticationFilter(this.corsFilter);
 	}
 
 	@Override
