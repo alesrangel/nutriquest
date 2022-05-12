@@ -24,8 +24,6 @@ import com.nutriquestion.nutriquestion.services.NutricionistaService;
 
 @RestController
 @RequestMapping(value = "/usuario/nutricionista")
-@CrossOrigin(origins = "*", maxAge = 3600,
-allowedHeaders={"x-auth-token", "x-requested-with", "x-xsrf-token"})
 public class NutricionistaResource {
 
 	@Autowired
