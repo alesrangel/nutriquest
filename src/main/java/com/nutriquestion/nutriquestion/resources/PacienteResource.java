@@ -1,6 +1,7 @@
 package com.nutriquestion.nutriquestion.resources;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -16,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.nutriquestion.nutriquestion.dtos.NutricionistaDTO;
-import com.nutriquestion.nutriquestion.dtos.NutricionistaGetIdDTO;
 import com.nutriquestion.nutriquestion.dtos.PacienteDTO;
 import com.nutriquestion.nutriquestion.services.PacienteService;
 
@@ -40,6 +39,12 @@ public class PacienteResource {
 	public ResponseEntity<PacienteDTO> findById(@PathVariable Long id) {
 		PacienteDTO dto = pacienteService.findById(id);
 		return ResponseEntity.ok().body(dto);
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<PacienteDTO>> findAll(@PathVariable Long id) {
+		List<PacienteDTO> listDtos = pacienteService.findAll();
+		return ResponseEntity.ok().body(listDtos);
 	}
 	
 	@PutMapping(value = "/{id}")

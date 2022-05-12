@@ -1,5 +1,7 @@
 package com.nutriquestion.nutriquestion.services;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -55,6 +57,16 @@ public class PacienteService {
 		return new PacienteDTO(entity);
 	}
 	
+	@Transactional(readOnly = true)
+	public List<PacienteDTO> findAll() {
+		List<Paciente> listEntity = pacienteRepository.findAll();
+		List<PacienteDTO> listDtos = new ArrayList<>();
+		for(Paciente paciente: listEntity) {
+			listDtos.add(new PacienteDTO(paciente));
+		}
+		return listDtos;
+	}
+	
 	@Transactional
 	public PacienteDTO update(Long id, PacienteDTO dto) {
 		try {
@@ -82,5 +94,7 @@ public class PacienteService {
 		entity.setIdade(dto.getIdade());
 		entity.setSexo(dto.getSexo());
 	}
+
+
 
 }
