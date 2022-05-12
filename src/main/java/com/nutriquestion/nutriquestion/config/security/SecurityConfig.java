@@ -23,4 +23,5 @@ public class SecurityConfig {
 	public JwtTokenStore tokenStore() {
 		return new JwtTokenStore(accessTokenConverter());
 	}
+	
 }

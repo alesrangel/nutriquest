@@ -25,7 +25,6 @@ import com.nutriquestion.nutriquestion.services.NutricionistaService;
 
 @RestController
 @RequestMapping(value = "/usuario/nutricionista")
-@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.DELETE,RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT})
 public class NutricionistaResource {
 
 	@Autowired
