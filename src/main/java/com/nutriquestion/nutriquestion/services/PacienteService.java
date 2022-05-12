@@ -1,8 +1,8 @@
 package com.nutriquestion.nutriquestion.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
@@ -59,12 +59,8 @@ public class PacienteService {
 	
 	@Transactional(readOnly = true)
 	public List<PacienteDTO> findAll() {
-		List<Paciente> listEntity = pacienteRepository.findAll();
-		List<PacienteDTO> listDtos = new ArrayList<>();
-		for(Paciente paciente: listEntity) {
-			listDtos.add(new PacienteDTO(paciente));
-		}
-		return listDtos;
+		List<Paciente> list = pacienteRepository.findAll();
+		return list.stream().map(x -> new PacienteDTO(x)).collect(Collectors.toList());
 	}
 	
 	@Transactional

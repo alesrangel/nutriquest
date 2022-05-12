@@ -42,7 +42,7 @@ public class PacienteResource {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<PacienteDTO>> findAll(@PathVariable Long id) {
+	public ResponseEntity<List<PacienteDTO>> findAll() {
 		List<PacienteDTO> listDtos = pacienteService.findAll();
 		return ResponseEntity.ok().body(listDtos);
 	}
