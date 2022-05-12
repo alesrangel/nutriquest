@@ -40,9 +40,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 		}
 		
 		http.authorizeRequests()
-		.antMatchers(PUBLIC).permitAll()
-		.antMatchers("/**").permitAll()
-		.anyRequest().authenticated();
-		http.cors();
+//		.antMatchers(PUBLIC).permitAll()
+//		.antMatchers(HttpMethod.POST, ADMIN).permitAll()
+		.anyRequest().permitAll();
+		
 	}
 }
