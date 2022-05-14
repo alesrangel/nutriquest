@@ -31,7 +31,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 	private JwtTokenStore tokenStore;
 	
 	private static final String ROOT_PATTERN = "/**";
-	private static final String CRIAR_CONTA_PATTERN = "/criar/**";
+	private static final String CRIAR_CONTA_PATTERN = "/usuario/nutricionista/**";
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
