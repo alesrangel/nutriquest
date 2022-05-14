@@ -25,6 +25,7 @@ import com.nutriquestion.nutriquestion.services.NutricionistaService;
 
 @RestController
 @RequestMapping(value = "/usuario/nutricionista")
+@CrossOrigin(origins="https://nutriquest.herokuapp.com", allowCredentials = "true")
 public class NutricionistaResource {
 
 	@Autowired
