@@ -1,35 +1,49 @@
 package com.nutriquestion.nutriquestion.config;
 
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
+import java.io.IOException;
 
-public class CorsFilterAdapter {
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-	private final String[] clientUrls;
-	private final String[] headers;
-	private final String[] methods;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
-	public CorsFilterAdapter(String clientUrls, String headers, String methods) {
-		this.clientUrls = clientUrls.split(",");
-		this.headers = headers.split(",");
-		this.methods = methods.split(",");
-	}
+@Component
+@Order(Ordered.HIGHEST_PRECEDENCE)
+@WebFilter("/*")
+public class CorsFilterAdapter implements Filter {
 
-	public CorsFilter corsFilter() {
-		CorsConfiguration config = new CorsConfiguration();
-		config.setAllowCredentials(false);
-		for (String clientUrl : clientUrls) {
-			config.addAllowedOrigin(clientUrl);
-		}
-		for (String header : headers) {
-			config.addAllowedHeader(header);
-		}
-		for (String method : methods) {
-			config.addAllowedMethod(method);
-		}
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", config);
-		return new CorsFilter(source);
-	}
+    public CorsFilterAdapter() {
+    }
+
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+        final HttpServletResponse response = (HttpServletResponse) res;
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
+        response.setHeader("Access-Control-Allow-Headers", "x-requested-with, authorization");
+        response.setHeader("Access-Control-Max-Age", "3600");
+        if ("OPTIONS".equalsIgnoreCase(((HttpServletRequest) req).getMethod())) {
+            response.setStatus(HttpServletResponse.SC_OK);
+        } else {
+            chain.doFilter(req, res);
+        }
+    }
+
+    @Override
+    public void destroy() {
+    }
+
+    @Override
+    public void init(FilterConfig config) throws ServletException {
+    }
 }
+
