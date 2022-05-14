@@ -1,6 +1,7 @@
 package com.nutriquestion.nutriquestion.resources;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -17,9 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.nutriquestion.nutriquestion.dtos.QuestaoDTO;
-import com.nutriquestion.nutriquestion.dtos.QuestionarioDTO;
-import com.nutriquestion.nutriquestion.services.QuestaoService;
-import com.nutriquestion.nutriquestion.services.QuestionarioService;
+import com.nutriquestion.nutriquestion.services	.QuestaoService;
 
 @RestController
 @RequestMapping(value = "/questao")
@@ -52,5 +51,11 @@ public class QuestaoResource {
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		questaoService.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping(value = "/findAll/{questionarioId}")
+	public ResponseEntity<List<QuestaoDTO>> findAll(@PathVariable Long questionarioId) {
+		List<QuestaoDTO> listDtos = questaoService.findAll(questionarioId);
+		return ResponseEntity.ok().body(listDtos);
 	}
 }

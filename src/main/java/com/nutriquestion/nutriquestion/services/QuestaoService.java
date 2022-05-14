@@ -1,6 +1,8 @@
 package com.nutriquestion.nutriquestion.services;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -11,11 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nutriquestion.nutriquestion.dtos.QuestaoDTO;
-import com.nutriquestion.nutriquestion.dtos.QuestionarioDTO;
 import com.nutriquestion.nutriquestion.entities.Questao;
 import com.nutriquestion.nutriquestion.entities.Questionario;
 import com.nutriquestion.nutriquestion.repositories.QuestaoRepository;
-import com.nutriquestion.nutriquestion.repositories.QuestionarioRepository;
 import com.nutriquestion.nutriquestion.services.exceptions.DatabaseException;
 import com.nutriquestion.nutriquestion.services.exceptions.ResourceNotFoundException;
 
@@ -60,6 +60,12 @@ public class QuestaoService {
 		} catch(DataIntegrityViolationException e) {
 			throw new DatabaseException("Integrity violation");
 		}
+	}
+	
+	@Transactional(readOnly = true)
+	public List<QuestaoDTO> findAll(Long questionarioId) {
+		List<Questao> list = questaoRepository.findAllQuestionario(questionarioId);
+		return list.stream().map(x -> new QuestaoDTO(x)).collect(Collectors.toList());
 	}
 	
 	private void copyDTOToEntity(QuestaoDTO dto, Questao entity) {

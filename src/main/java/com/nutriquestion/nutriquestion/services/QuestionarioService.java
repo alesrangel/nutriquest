@@ -64,7 +64,7 @@ public class QuestionarioService {
 		}
 	}
 	
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<QuestionarioDTO> findAll(Long nutricionistaId) {
 		List<Questionario> list = questionarioRepository.findAllNutricionista(nutricionistaId);
 		return list.stream().map(x -> new QuestionarioDTO(x)).collect(Collectors.toList());
