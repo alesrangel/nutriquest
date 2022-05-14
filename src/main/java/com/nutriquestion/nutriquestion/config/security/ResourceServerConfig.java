@@ -50,7 +50,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 		.authorizeRequests()
 		.antMatchers(PUBLIC).permitAll()
 		.antMatchers(HttpMethod.POST, ADMIN).permitAll()
-		.anyRequest().authenticated();
+		.anyRequest().permitAll();
 
 //		http.cors().and().csrf().disable();
 //		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -66,12 +66,4 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 //		    .and().addFilterBefore(new TokenFilter(tokenService,nutricionistaRepository), UsernamePasswordAuthenticationFilter.class);
 	}
 	
-	@Bean
-	public CorsConfigurationSource corsConfigurationSource() {
-		CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
-		configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS"));
-		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration);
-		return source;
-	}
 }
