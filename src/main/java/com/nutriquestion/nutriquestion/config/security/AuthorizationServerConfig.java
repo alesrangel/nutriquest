@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -58,8 +59,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory().withClient(clientId).secret(passwordEncoder.encode(clientSecret))
-				.scopes("read", "write").authorizedGrantTypes("password", "refresh_token").accessTokenValiditySeconds(jwtDuration)
+		clients.inMemory()
+				.withClient(clientId)
+				.secret(passwordEncoder.encode(clientSecret))
+				.scopes("read", "write")
+				.authorizedGrantTypes("password", "refresh_token")
+				.accessTokenValiditySeconds(jwtDuration)
 				.refreshTokenValiditySeconds(jwtDuration);
 	}
 
@@ -69,8 +74,18 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		TokenEnhancerChain chain = new TokenEnhancerChain();
 		chain.setTokenEnhancers(Arrays.asList(accessTokenConverter, tokenEnhancer));
 		
-		endpoints.authenticationManager(authenticationManager).tokenStore(tokenStore)
-				.accessTokenConverter(accessTokenConverter).tokenEnhancer(chain)
-				.userDetailsService(userDetailsService);
+		endpoints.authenticationManager(authenticationManager)
+			.userDetailsService(userDetailsService)
+			.tokenStore(tokenStore)
+			.reuseRefreshTokens(false)
+			.accessTokenConverter(jwtAccessTokenConverter())
+			.tokenEnhancer(chain);
 	}
+	
+    @Bean
+    public JwtAccessTokenConverter jwtAccessTokenConverter() throws Exception {
+        JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
+        jwtAccessTokenConverter.setSigningKey("nutriquest");
+        return jwtAccessTokenConverter;
+    }
 }
