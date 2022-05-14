@@ -46,15 +46,16 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 		if(Arrays.asList(env.getActiveProfiles()).contains("test")) {
 			http.headers().frameOptions().disable();
 		}
-//		http.cors().disable()
-//		.authorizeRequests()
-//		.antMatchers(PUBLIC).permitAll()
-//		.anyRequest().authenticated();
+		http.cors().and().csrf().disable()
+		.authorizeRequests()
+		.antMatchers(PUBLIC).permitAll()
+		.antMatchers(HttpMethod.POST, ADMIN).permitAll()
+		.anyRequest().permitAll();
 
-		http.cors().disable();
+//		http.cors().and().csrf().disable();
 //		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		http.authorizeRequests().anyRequest().authenticated();
-		http.authorizeRequests().antMatchers(HttpMethod.POST, PUBLIC).permitAll();
+//		http.authorizeRequests().anyRequest().permitAll();
+//		http.authorizeRequests().antMatchers(HttpMethod.POST, PUBLIC).permitAll();
 	
 //		 http.authorizeRequests()
 //		    .antMatchers(HttpMethod.POST, "/auth").permitAll()
@@ -73,6 +74,4 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
 	}
-	
-	
 }
