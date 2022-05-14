@@ -58,6 +58,9 @@ public class Nutricionista implements UserDetails ,Serializable{
 	@OneToMany(mappedBy = "nutricionistaAvaliacao", fetch = FetchType.EAGER)
 	private List<Avaliacao> Avaliacoes = new ArrayList<>();
 	
+	@OneToMany(mappedBy = "nutricionista")
+	private List<Questionario> questionarios= new ArrayList<>();
+	
 
 	@Override
 	public String getUsername() {

@@ -26,9 +26,9 @@ public class QuestionarioResource {
 	@Autowired
 	private QuestionarioService questionarioService;
 	
-	@PostMapping
-	public ResponseEntity<QuestionarioDTO> insert(@Valid @RequestBody QuestionarioDTO dto) {
-		QuestionarioDTO newdto = questionarioService.insert(dto);
+	@PostMapping(value = "/{nutricionistaId}")
+	public ResponseEntity<QuestionarioDTO> insert(@PathVariable Long nutricionistaId, @Valid @RequestBody QuestionarioDTO dto) {
+		QuestionarioDTO newdto = questionarioService.insert(nutricionistaId, dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(newdto.getId()).toUri();
 		return ResponseEntity.created(uri).body(newdto);

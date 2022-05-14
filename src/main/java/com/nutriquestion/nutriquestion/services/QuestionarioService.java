@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nutriquestion.nutriquestion.dtos.QuestionarioDTO;
+import com.nutriquestion.nutriquestion.entities.Nutricionista;
 import com.nutriquestion.nutriquestion.entities.Questionario;
+import com.nutriquestion.nutriquestion.repositories.NutricionistaRepository;
 import com.nutriquestion.nutriquestion.repositories.QuestionarioRepository;
 import com.nutriquestion.nutriquestion.services.exceptions.DatabaseException;
 import com.nutriquestion.nutriquestion.services.exceptions.ResourceNotFoundException;
@@ -22,9 +24,14 @@ public class QuestionarioService {
 	@Autowired
 	private QuestionarioRepository questionarioRepository;
 	
+	@Autowired
+	private NutricionistaRepository nutricionistaRepository;
+	
 	@Transactional
-	public QuestionarioDTO insert(QuestionarioDTO dto) {
+	public QuestionarioDTO insert(Long nutricionistaId, QuestionarioDTO dto) {
 		Questionario entity = new Questionario();
+		Nutricionista  nutriEntity = nutricionistaRepository.getOne(nutricionistaId);
+		entity.setNutricionista(nutriEntity);
 		copyDTOToEntity(dto, entity);
 		entity = questionarioRepository.save(entity);
 		return new QuestionarioDTO(entity);

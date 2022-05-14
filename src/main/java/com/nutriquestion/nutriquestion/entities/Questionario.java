@@ -10,6 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -33,4 +35,8 @@ public class Questionario implements Serializable{
 	
 	@OneToMany(mappedBy = "questionario")
 	private List<Questao> questoes= new ArrayList<>();
+	
+	@ManyToOne
+	@JoinColumn(name = "nutricionista_id")
+	private Nutricionista nutricionista;
 }
