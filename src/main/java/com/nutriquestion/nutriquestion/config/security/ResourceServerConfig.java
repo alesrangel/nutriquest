@@ -52,16 +52,17 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 //		.antMatchers(HttpMethod.POST, ADMIN).permitAll()
 //		.anyRequest().authenticated();
 
-//		http.cors().and().csrf().disable();
-//		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//		http.authorizeRequests().anyRequest().permitAll();
+		http.cors().and().csrf().disable();
+		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.authorizeRequests().anyRequest().permitAll().antMatchers(PUBLIC).permitAll();
+		
 	
-		 http.authorizeRequests()
-		    .antMatchers(HttpMethod.POST, "/auth").permitAll()
-		    .anyRequest().authenticated()
-		    .and().cors()
-		    .and().csrf().disable()
-		    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//		 http.authorizeRequests()
+//		    .antMatchers(HttpMethod.POST, "/auth").permitAll()
+//		    .anyRequest().authenticated()
+//		    .and().cors()
+//		    .and().csrf().disable()
+//		    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 //		    .and().addFilterBefore(new TokenFilter(tokenService,nutricionistaRepository), UsernamePasswordAuthenticationFilter.class);
 	}
 	
