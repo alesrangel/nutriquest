@@ -1,6 +1,8 @@
 package com.nutriquestion.nutriquestion.services;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -10,10 +12,13 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nutriquestion.nutriquestion.dtos.QuestaoDTO;
 import com.nutriquestion.nutriquestion.dtos.QuestionarioDTO;
 import com.nutriquestion.nutriquestion.entities.Nutricionista;
+import com.nutriquestion.nutriquestion.entities.Questao;
 import com.nutriquestion.nutriquestion.entities.Questionario;
 import com.nutriquestion.nutriquestion.repositories.NutricionistaRepository;
+import com.nutriquestion.nutriquestion.repositories.QuestaoRepository;
 import com.nutriquestion.nutriquestion.repositories.QuestionarioRepository;
 import com.nutriquestion.nutriquestion.services.exceptions.DatabaseException;
 import com.nutriquestion.nutriquestion.services.exceptions.ResourceNotFoundException;
@@ -23,6 +28,9 @@ public class QuestionarioService {
 
 	@Autowired
 	private QuestionarioRepository questionarioRepository;
+	
+	@Autowired
+	private QuestaoRepository questaoRepository;
 	
 	@Autowired
 	private NutricionistaRepository nutricionistaRepository;
@@ -56,6 +64,12 @@ public class QuestionarioService {
 		}
 	}
 	
+	@Transactional
+	public List<QuestionarioDTO> findAll(Long nutricionistaId) {
+		List<Questionario> list = questionarioRepository.findAllNutricionista(nutricionistaId);
+		return list.stream().map(x -> new QuestionarioDTO(x)).collect(Collectors.toList());
+	}
+	
 	public void delete(Long id) {
 		try {
 			questionarioRepository.deleteById(id);
@@ -70,6 +84,16 @@ public class QuestionarioService {
 		entity.setId(dto.getId());
 		entity.setTitulo(dto.getTitulo());
 		entity.setAvaliacao(dto.getAvaliacao());
-		entity.setQuestoes(dto.getQuestoes());
+		
+		entity.getQuestoes().clear();
+		for(QuestaoDTO questDTO : dto.getQuestoes()) {
+			Questao questao = new Questao();
+			questao.setTitulo(questDTO.getTitulo());
+			questao.setQuestionario(entity);
+			questaoRepository.save(questao);
+			entity.getQuestoes().add(questao);
+			entity.getQuestoes().add(new Questao(questDTO));
+		}
 	}
+
 }

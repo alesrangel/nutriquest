@@ -1,8 +1,10 @@
 package com.nutriquestion.nutriquestion.dtos;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 
@@ -23,15 +25,27 @@ public class QuestionarioDTO implements Serializable{
 	private Long id;
 	@Column(columnDefinition = "TEXT")
 	private String titulo;
+	
+	private Instant dataCriacao;
 
 	private Avaliacao avaliacao;
 	
-	private List<Questao> questoes= new ArrayList<>();
+	private List<QuestaoDTO> questoes= new ArrayList<>();
+	
+	public QuestionarioDTO(long id, String titulo) {
+		this.id = id;
+		this.titulo = titulo;
+	}
 
 	public QuestionarioDTO(Questionario entity) {
 		id = entity.getId();
 		titulo = entity.getTitulo();
+		dataCriacao = entity.getDataCriacao();
 		avaliacao = entity.getAvaliacao();
-		questoes = entity.getQuestoes();
+	}
+	
+	public QuestionarioDTO(Questionario entity, List<Questao> questoes) {
+		this(entity);
+		questoes.forEach(questao -> this.questoes.add(new QuestaoDTO(questao)));
 	}
 }

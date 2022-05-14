@@ -46,7 +46,7 @@ public class Nutricionista implements UserDetails ,Serializable{
 	@Column(unique = true)
 	private String crn;
 	
-	@OneToMany(mappedBy = "nutricionista", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "nutricionista", fetch = FetchType.LAZY)
 	private List<Paciente> pacientes = new ArrayList<>();
 	
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -55,7 +55,7 @@ public class Nutricionista implements UserDetails ,Serializable{
 			inverseJoinColumns = @JoinColumn(name = "nutricionista_id"))
 	private Set<Relatorio> relarios = new HashSet<>();
 	
-	@OneToMany(mappedBy = "nutricionistaAvaliacao", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "nutricionistaAvaliacao", fetch = FetchType.LAZY)
 	private List<Avaliacao> Avaliacoes = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "nutricionista")

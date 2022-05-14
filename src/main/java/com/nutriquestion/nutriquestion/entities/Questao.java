@@ -13,9 +13,13 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import com.nutriquestion.nutriquestion.dtos.QuestaoDTO;
+
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "tb_questao")
 public class Questao implements Serializable{
@@ -27,13 +31,19 @@ public class Questao implements Serializable{
 	@NotBlank
 	@Column(columnDefinition = "TEXT")
 	private String titulo;
-
+	
 	@ManyToOne
 	@JoinColumn(name = "questionario_id")
 	private Questionario questionario;
 	
-	
 	@OneToOne
 	@JoinColumn(name = "resposta_id")
 	private Resposta resposta;
+	
+	public Questao (QuestaoDTO questDTO) {
+		this.titulo = questDTO.getTitulo();
+//		this.questionario = new Questionario(questDTO.getQuestionario());
+//		this.questionario.setTitulo(questDTO.getQuestionario().getTitulo());
+//		this.questionario.setId(questDTO.getQuestionario().getId());
+	}
 }

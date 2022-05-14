@@ -1,6 +1,7 @@
 package com.nutriquestion.nutriquestion.resources;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -38,6 +39,12 @@ public class QuestionarioResource {
 	public ResponseEntity<QuestionarioDTO> findById(@PathVariable Long id) {
 		QuestionarioDTO dto = questionarioService.findById(id);
 		return ResponseEntity.ok().body(dto);
+	}
+	
+	@GetMapping(value = "/findAll/{nutricionistaId}")
+	public ResponseEntity<List<QuestionarioDTO>> findAll(@PathVariable Long nutricionistaId) {
+		List<QuestionarioDTO> listDtos = questionarioService.findAll(nutricionistaId);
+		return ResponseEntity.ok().body(listDtos);
 	}
 	
 	@PutMapping(value = "/{id}")

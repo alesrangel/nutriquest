@@ -65,7 +65,7 @@ public class QuestaoService {
 	private void copyDTOToEntity(QuestaoDTO dto, Questao entity) {
 		entity.setId(dto.getId());
 		entity.setTitulo(dto.getTitulo());
-		entity.setResposta(dto.getResposta());
-		entity.setQuestionario(dto.getQuestionario());
+//		entity.setResposta(dto.getResposta());
+		entity.setQuestionario(new Questionario(dto.getQuestionario()));
 	}
 }
