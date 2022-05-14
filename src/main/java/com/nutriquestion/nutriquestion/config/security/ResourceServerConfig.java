@@ -13,9 +13,12 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import com.fasterxml.jackson.core.filter.TokenFilter;
 
 @Configuration
 @EnableResourceServer
@@ -49,9 +52,17 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 //		.antMatchers(HttpMethod.POST, ADMIN).permitAll()
 //		.anyRequest().authenticated();
 
-		http.cors().and().csrf().disable();
-		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		http.authorizeRequests().anyRequest().permitAll();
+//		http.cors().and().csrf().disable();
+//		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//		http.authorizeRequests().anyRequest().permitAll();
+	
+		 http.authorizeRequests()
+		    .antMatchers(HttpMethod.POST, "/auth").permitAll()
+		    .anyRequest().authenticated()
+		    .and().cors()
+		    .and().csrf().disable()
+		    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//		    .and().addFilterBefore(new TokenFilter(tokenService,nutricionistaRepository), UsernamePasswordAuthenticationFilter.class);
 	}
 	
 	@Bean
