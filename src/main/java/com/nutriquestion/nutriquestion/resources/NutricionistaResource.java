@@ -42,6 +42,12 @@ public class NutricionistaResource {
 		return ResponseEntity.ok().body(dto);
 	}
 	
+	@GetMapping(value = "/{email}/{senha}")
+	public ResponseEntity<NutricionistaGetIdDTO> login(@PathVariable String email, @PathVariable String senha) {
+		NutricionistaGetIdDTO dto = nutricionistaService.login(email, senha);
+		return ResponseEntity.ok().body(dto);
+	}
+	
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<NutricionistaDTO> update(@PathVariable Long id, @Valid @RequestBody NutricionistaDTO dto) {
 		NutricionistaDTO newDto = nutricionistaService.update(id ,dto);

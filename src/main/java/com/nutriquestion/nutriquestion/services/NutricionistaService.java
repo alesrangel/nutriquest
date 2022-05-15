@@ -84,4 +84,10 @@ public class NutricionistaService {
 		entity.setEmail(dto.getEmail());
 		entity.setCrn(dto.getCrn());
 	}
+
+	public NutricionistaGetIdDTO login(String email, String senha) {
+		Optional<Nutricionista> obj = repository.findEmailSenha(email, senha);
+		Nutricionista entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+		return new NutricionistaGetIdDTO(entity);
+	}
 }

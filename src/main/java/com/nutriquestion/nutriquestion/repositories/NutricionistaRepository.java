@@ -1,6 +1,9 @@
 package com.nutriquestion.nutriquestion.repositories;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.nutriquestion.nutriquestion.entities.Nutricionista;
@@ -9,5 +12,8 @@ import com.nutriquestion.nutriquestion.entities.Nutricionista;
 public interface NutricionistaRepository extends JpaRepository<Nutricionista, Long>{
 
 	Nutricionista findByEmail(String email);
+	
+	@Query(nativeQuery = true, value = "select * from tb_nutricionista where email = :email and senha = :senha")
+	Optional<Nutricionista> findEmailSenha(String email, String senha);
 
 }
