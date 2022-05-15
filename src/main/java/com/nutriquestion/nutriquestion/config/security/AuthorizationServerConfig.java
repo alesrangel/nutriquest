@@ -74,22 +74,22 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		TokenEnhancerChain chain = new TokenEnhancerChain();
 		chain.setTokenEnhancers(Arrays.asList(accessTokenConverter, tokenEnhancer));
 		
-		endpoints.authenticationManager(authenticationManager)
-			.userDetailsService(userDetailsService)
-			.tokenStore(tokenStore)
-			.reuseRefreshTokens(false)
-			.accessTokenConverter(jwtAccessTokenConverter())
-			.tokenEnhancer(chain);
+//		endpoints.authenticationManager(authenticationManager)
+//			.userDetailsService(userDetailsService)
+//			.tokenStore(tokenStore)
+//			.reuseRefreshTokens(false)
+//			.accessTokenConverter(jwtAccessTokenConverter())
+//			.tokenEnhancer(chain);
 
-//		endpoints.authenticationManager(authenticationManager).tokenStore(tokenStore)
-//		.accessTokenConverter(accessTokenConverter).tokenEnhancer(chain)
-//		.userDetailsService(userDetailsService);
+		endpoints.authenticationManager(authenticationManager).tokenStore(tokenStore)
+		.accessTokenConverter(accessTokenConverter).tokenEnhancer(chain)
+		.userDetailsService(userDetailsService);
 	}
 	
-    @Bean
-    public JwtAccessTokenConverter jwtAccessTokenConverter() throws Exception {
-        JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
-        jwtAccessTokenConverter.setSigningKey("nutriquest");
-        return jwtAccessTokenConverter;
-    }
+//    @Bean
+//    public JwtAccessTokenConverter jwtAccessTokenConverter() throws Exception {
+//        JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
+//        jwtAccessTokenConverter.setSigningKey("nutriquest");
+//        return jwtAccessTokenConverter;
+//    }
 }
