@@ -1,5 +1,6 @@
 package com.nutriquestion.nutriquestion.config.security;
 
+import java.net.http.HttpHeaders;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,13 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+
+import com.fasterxml.jackson.core.filter.TokenFilter;
 
 @Configuration
 @EnableResourceServer
@@ -30,9 +34,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 	@Autowired 
 	private JwtTokenStore tokenStore;
 	
-	private static final String[] PUBLIC = {"/oauth/token", "/h2-console/**"};
+	private static final String[] PUBLIC = {"/oauth/token", "/h2-console/**", "/usuario/nutricionista"};
 	
-	private static final String[] ADMIN = {"/usuario/nutricionista"};
+//	private static final String[] ADMIN = {"/usuario/nutricionista"};
 			
 	@Override
 	public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
@@ -46,10 +50,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 		if(Arrays.asList(env.getActiveProfiles()).contains("test")) {
 			http.headers().frameOptions().disable();
 		}
-//		http.authorizeRequests()
-////			.antMatchers(PUBLIC).permitAll()
-////			.antMatchers(HttpMethod.POST, ADMIN).permitAll()
-//			.anyRequest().permitAll();
+		http.authorizeRequests()
+			.antMatchers(PUBLIC).permitAll()
+			.anyRequest().permitAll();
 		
 		http.cors().configurationSource(corsConfigurationSource());
 //		http.cors().disable();
@@ -58,17 +61,10 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 //		http.authorizeRequests().antMatchers(HttpMethod.OPTIONS, PUBLIC).permitAll();
 //		http.authorizeRequests().anyRequest().permitAll();
 
-		http.authorizeRequests()
-		.antMatchers("/**").permitAll()
-		.anyRequest().permitAll();
-		System.out.println("===> http.cors"+ http.cors());
-//		 http.authorizeRequests()
-//		    .antMatchers(HttpMethod.POST, "/auth").permitAll()
-//		    .anyRequest().authenticated()
-//		    .and().cors()
-//		    .and().csrf().disable()
-//		    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//		    .and().addFilterBefore(new TokenFilter(tokenService,nutricionistaRepository), UsernamePasswordAuthenticationFilter.class);
+//		http.authorizeRequests()
+//		.antMatchers("/**").permitAll()
+//		.anyRequest().permitAll();
+		
 	}
 	
 	@Bean
@@ -77,8 +73,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 		corsConfig.setAllowedOriginPatterns(Arrays.asList("*"));
 		corsConfig.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "PATCH"));
 		corsConfig.setAllowCredentials(true);
-		corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "content-Type"));
-		
+		corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "content-Type", "Access-Control-Allow-Origin" ));
+
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", corsConfig);
 		return source;
