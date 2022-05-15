@@ -51,7 +51,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 ////			.antMatchers(HttpMethod.POST, ADMIN).permitAll()
 //			.anyRequest().permitAll();
 		
-		http.cors().configurationSource(corsConfigurationSource());
+//		http.cors().configurationSource(corsConfigurationSource());
+		http.cors().disable();
 //		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 //		http.authorizeRequests().antMatchers(HttpMethod.POST, ADMIN).permitAll();
 //		http.authorizeRequests().antMatchers(HttpMethod.OPTIONS, PUBLIC).permitAll();
@@ -60,7 +61,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 		http.authorizeRequests()
 		.antMatchers("/**").permitAll()
 		.anyRequest().permitAll();
-		
+		System.out.println("===> http.cors"+ http.cors());
 //		 http.authorizeRequests()
 //		    .antMatchers(HttpMethod.POST, "/auth").permitAll()
 //		    .anyRequest().authenticated()
