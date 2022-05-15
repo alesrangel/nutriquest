@@ -8,7 +8,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
@@ -30,8 +32,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 	private JwtTokenStore tokenStore;
 	
 	private static final String[] PUBLIC = {"/oauth/token", "/h2-console/**", "/usuario/nutricionista"};
-	
-//	private static final String[] ADMIN = {"/usuario/nutricionista"};
 			
 	@Override
 	public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
@@ -45,30 +45,22 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 		if(Arrays.asList(env.getActiveProfiles()).contains("test")) {
 			http.headers().frameOptions().disable();
 		}
-		http.authorizeRequests()
-			.antMatchers(PUBLIC).permitAll()
-			.anyRequest().permitAll();
 		
 		http.cors().configurationSource(corsConfigurationSource());
-//		http.cors().disable();
-//		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//		http.authorizeRequests().antMatchers(HttpMethod.POST, ADMIN).permitAll();
-//		http.authorizeRequests().antMatchers(HttpMethod.OPTIONS, PUBLIC).permitAll();
-//		http.authorizeRequests().anyRequest().permitAll();
+		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.authorizeRequests().antMatchers(HttpMethod.POST, PUBLIC).permitAll();
+		http.authorizeRequests().antMatchers(HttpMethod.OPTIONS, PUBLIC).permitAll();
+		http.authorizeRequests().anyRequest().permitAll();
 
-//		http.authorizeRequests()
-//		.antMatchers("/**").permitAll()
-//		.anyRequest().permitAll();
-		
 	}
 	
 	
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration corsConfig = new CorsConfiguration();
-		corsConfig.setAllowedOriginPatterns(Arrays.asList("https://nutri-quest.netlify.app"));
+		corsConfig.setAllowedOriginPatterns(Arrays.asList("https://nutri-quest.netlify.app/"));
 		corsConfig.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "PATCH"));
-		corsConfig.setAllowCredentials(true);
+		corsConfig.setAllowCredentials(false);
 		corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "content-Type", "Access-Control-Allow-Origin" ));
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
