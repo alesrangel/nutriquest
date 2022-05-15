@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,10 +37,11 @@ public class PacienteService {
 	private NutricionistaRepository nutricionistaRepository;
 	
 	@Transactional
-	public PacienteDTO insert(Long nutricionistaId, @Valid PacienteDTO dto) {
+	public PacienteDTO insert(@Valid PacienteDTO dto) {
 		Paciente entity = new Paciente();
-		NutricionistaGetIdDTO nutri = nutricionistaService.findById(nutricionistaId);
-		Optional<Nutricionista> obj = nutricionistaRepository.findById(nutri.getId());
+		String nutriNome  = SecurityContextHolder.getContext().getAuthentication().getName();
+		NutricionistaGetIdDTO nutriGet = nutricionistaService.findByNome(nutriNome);
+		Optional<Nutricionista> obj = nutricionistaRepository.findById(nutriGet.getId());
 		Nutricionista entityNutri = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
 		NutricionistaDTO nutriDTO = new NutricionistaDTO(entityNutri);
 		copyDTOToEntity(dto, entity);
