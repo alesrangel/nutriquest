@@ -51,7 +51,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 ////			.antMatchers(HttpMethod.POST, ADMIN).permitAll()
 //			.anyRequest().permitAll();
 		
-//		http.cors().configurationSource(corsConfigurationSource());
+		http.cors().configurationSource(corsConfigurationSource());
 //		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 //		http.authorizeRequests().antMatchers(HttpMethod.POST, ADMIN).permitAll();
 //		http.authorizeRequests().antMatchers(HttpMethod.OPTIONS, PUBLIC).permitAll();
