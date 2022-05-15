@@ -25,6 +25,7 @@ import com.nutriquestion.nutriquestion.services.NutricionistaService;
 
 @RestController
 @RequestMapping(value = "/usuario/nutricionista")
+@CrossOrigin(origins = "https://nutri-quest.netlify.app")
 public class NutricionistaResource {
 
 	@Autowired
