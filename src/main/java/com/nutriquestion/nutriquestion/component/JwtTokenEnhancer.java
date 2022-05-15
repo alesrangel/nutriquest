@@ -24,7 +24,7 @@ public class JwtTokenEnhancer implements TokenEnhancer{
 		
 		Nutricionista usuario = nutricionistaRepository.findByEmail(authentication.getName());
 		Map<String, Object> map = new HashMap<>();
-//		map.put("usuarioNome", usuario.getEmail());
+		map.put("usuarioNome", usuario.getEmail());
 		map.put("usuarioId", usuario.getId());
 		
 		DefaultOAuth2AccessToken token =(DefaultOAuth2AccessToken) accessToken;
