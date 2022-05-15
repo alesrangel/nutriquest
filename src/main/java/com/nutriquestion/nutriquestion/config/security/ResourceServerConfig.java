@@ -58,8 +58,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 //		http.authorizeRequests().anyRequest().permitAll();
 
 		http.authorizeRequests()
-		.antMatchers(PUBLIC).permitAll()
-		.anyRequest().authenticated();
+		.antMatchers("/**").permitAll()
+		.anyRequest().permitAll();
 		
 //		 http.authorizeRequests()
 //		    .antMatchers(HttpMethod.POST, "/auth").permitAll()
