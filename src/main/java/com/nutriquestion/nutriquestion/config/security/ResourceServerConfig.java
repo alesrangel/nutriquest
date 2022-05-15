@@ -15,7 +15,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -46,8 +45,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 			http.headers().frameOptions().disable();
 		}
 		
-//		http.cors().configurationSource(corsConfigurationSource());
-		http.cors().disable();
+		http.cors().configurationSource(corsConfigurationSource());
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.authorizeRequests().antMatchers(HttpMethod.POST, PUBLIC).permitAll();
 		http.authorizeRequests().anyRequest().permitAll();
@@ -61,7 +59,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 		corsConfig.setAllowedOriginPatterns(Arrays.asList("https://nutri-quest.netlify.app/"));
 		corsConfig.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "PATCH"));
 		corsConfig.setAllowCredentials(false);
-		corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "content-Type", "Access-Control-Allow-Origin" ));
+		corsConfig.setAllowedHeaders(Arrays.asList("*" ));
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", corsConfig);
