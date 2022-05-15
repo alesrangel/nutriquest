@@ -27,9 +27,9 @@ public class PacienteResource {
 	@Autowired
 	private PacienteService pacienteService;
 	
-	@PostMapping
-	public ResponseEntity<PacienteDTO> insert(@Valid @RequestBody PacienteDTO dto) {
-		PacienteDTO newdto = pacienteService.insert(dto);
+	@PostMapping(value = "/{nutricionistaId}") 
+	public ResponseEntity<PacienteDTO> insert(@PathVariable Long nutricionistaId, @Valid @RequestBody PacienteDTO dto) {
+		PacienteDTO newdto = pacienteService.insert(nutricionistaId, dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(newdto.getId()).toUri();
 		return ResponseEntity.created(uri).body(newdto);

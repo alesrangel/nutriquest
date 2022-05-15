@@ -10,12 +10,12 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nutriquestion.nutriquestion.dtos.AvaliacaoDTO;
 import com.nutriquestion.nutriquestion.dtos.NutricionistaDTO;
+import com.nutriquestion.nutriquestion.dtos.NutricionistaGetIdDTO;
 import com.nutriquestion.nutriquestion.entities.Avaliacao;
 import com.nutriquestion.nutriquestion.repositories.AvaliacaoRepository;
 import com.nutriquestion.nutriquestion.repositories.NutricionistaRepository;
@@ -35,12 +35,12 @@ public class AvaliacaoService {
 	private NutricionistaRepository nutricionistRepository;
 	
 	@Transactional
-	public AvaliacaoDTO insert(@Valid AvaliacaoDTO dto) {
+	public AvaliacaoDTO insert( Long nutricionistaId, @Valid AvaliacaoDTO dto) {
 		Avaliacao entity = new Avaliacao();
-		String nutriNome  = SecurityContextHolder.getContext().getAuthentication().getName();
-		NutricionistaDTO nutriDTO = nutricionistaService.findByNomeDTO(nutriNome);
+		NutricionistaGetIdDTO nutri = nutricionistaService.findById(nutricionistaId);
+		NutricionistaDTO nutriDTO = nutricionistaService.findByNomeDTO(nutri.getNome());
 		copyDTOToEntity(dto, entity);
-		entity.setNutricionistaAvaliacao(nutricionistRepository.findByEmail(nutriNome));
+		entity.setNutricionistaAvaliacao(nutricionistRepository.findByEmail(nutri.getNome()));
 		entity = avaliacaoRepository.save(entity);
 		return new AvaliacaoDTO(entity);
 	}

@@ -28,9 +28,9 @@ public class AvaliacaoResource {
 	@Autowired
 	private AvaliacaoService avaliacaoService;
 
-	@PostMapping
-	public ResponseEntity<AvaliacaoDTO> insert(@Valid @RequestBody AvaliacaoDTO dto){
-		AvaliacaoDTO newdto = avaliacaoService.insert(dto);
+	@PostMapping(value = "/{nutricionistaId}")
+	public ResponseEntity<AvaliacaoDTO> insert(@PathVariable Long nutricionistaId, @Valid @RequestBody AvaliacaoDTO dto){
+		AvaliacaoDTO newdto = avaliacaoService.insert(nutricionistaId, dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(newdto.getId()).toUri();
 		return ResponseEntity.created(uri).body(newdto);
