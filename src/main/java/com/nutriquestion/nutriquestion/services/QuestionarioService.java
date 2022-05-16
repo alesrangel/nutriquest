@@ -70,6 +70,12 @@ public class QuestionarioService {
 		return list.stream().map(x -> new QuestionarioDTO(x)).collect(Collectors.toList());
 	}
 	
+	@Transactional(readOnly = true)
+	public List<QuestaoDTO> findQuestionario(Long nutricionistaId) {
+		List<Questao> list = questionarioRepository.findQuestionario(nutricionistaId);
+		return list.stream().map(x -> new QuestaoDTO(x)).collect(Collectors.toList());
+	}
+	
 	public void delete(Long id) {
 		try {
 			questionarioRepository.deleteById(id);

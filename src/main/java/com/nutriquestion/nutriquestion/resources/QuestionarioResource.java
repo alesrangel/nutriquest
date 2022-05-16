@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.nutriquestion.nutriquestion.dtos.QuestaoDTO;
 import com.nutriquestion.nutriquestion.dtos.QuestionarioDTO;
 import com.nutriquestion.nutriquestion.services.QuestionarioService;
 
@@ -46,6 +47,12 @@ public class QuestionarioResource {
 	@GetMapping(value = "/findAll/{nutricionistaId}")
 	public ResponseEntity<List<QuestionarioDTO>> findAll(@PathVariable Long nutricionistaId) {
 		List<QuestionarioDTO> listDtos = questionarioService.findAll(nutricionistaId);
+		return ResponseEntity.ok().body(listDtos);
+	}
+	
+	@GetMapping(value = "/findQuestionario/{questionarioId}")
+	public ResponseEntity<List<QuestaoDTO>> findQuestionario(@PathVariable Long questionarioId) {
+		List<QuestaoDTO> listDtos = questionarioService.findQuestionario(questionarioId);
 		return ResponseEntity.ok().body(listDtos);
 	}
 	

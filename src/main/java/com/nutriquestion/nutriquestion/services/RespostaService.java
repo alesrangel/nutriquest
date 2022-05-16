@@ -11,11 +11,12 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.nutriquestion.nutriquestion.dtos.NutricionistaDTO;
-import com.nutriquestion.nutriquestion.dtos.NutricionistaGetIdDTO;
 import com.nutriquestion.nutriquestion.dtos.RespostaDTO;
-import com.nutriquestion.nutriquestion.entities.Nutricionista;
+import com.nutriquestion.nutriquestion.entities.Paciente;
+import com.nutriquestion.nutriquestion.entities.Questao;
 import com.nutriquestion.nutriquestion.entities.Resposta;
+import com.nutriquestion.nutriquestion.repositories.PacienteRepository;
+import com.nutriquestion.nutriquestion.repositories.QuestaoRepository;
 import com.nutriquestion.nutriquestion.repositories.RespostaRepository;
 import com.nutriquestion.nutriquestion.services.exceptions.DatabaseException;
 import com.nutriquestion.nutriquestion.services.exceptions.ResourceNotFoundException;
@@ -25,12 +26,20 @@ public class RespostaService {
 	
 	@Autowired
 	private RespostaRepository respostaRepository;
+	
+	@Autowired
+	private QuestaoRepository questaoRepository;
+	
+	@Autowired
+	private PacienteRepository pacienteRepository;
 
 	@Transactional
-	public RespostaDTO insert(@Valid RespostaDTO dto) {
+	public RespostaDTO insert(Long idQuestionario, @Valid RespostaDTO dto) {
 		Resposta entity = new Resposta();
+		Questao questao = questaoRepository.getOne(idQuestionario);
 		copyDTOToEntity(dto, entity);
 		entity = respostaRepository.save(entity);
+		respostaRepository.fazerRelacao(entity.getId(),  questao.getId());
 		return new RespostaDTO(entity);
 	}
 	
