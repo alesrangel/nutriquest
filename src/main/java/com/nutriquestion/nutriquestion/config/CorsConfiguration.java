@@ -17,7 +17,7 @@ public class CorsConfiguration implements WebMvcConfigurer {
 				registry.addMapping("/**")
 				.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT")
 				.allowedHeaders("*")
-				.allowedOrigins("https://nutri-quest.netlify.app/");
+				.allowedOrigins("*");
 				
 			}
 		
