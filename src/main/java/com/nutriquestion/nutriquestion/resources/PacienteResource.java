@@ -43,6 +43,12 @@ public class PacienteResource {
 		return ResponseEntity.ok().body(dto);
 	}
 	
+	@GetMapping(value = "/arquivados")
+	public ResponseEntity<List<PacienteDTO>> findArquivados() {
+		List<PacienteDTO> dto = pacienteService.findArquivados();
+		return ResponseEntity.ok().body(dto);
+	}
+	
 	@GetMapping
 	public ResponseEntity<List<PacienteDTO>> findAll() {
 		List<PacienteDTO> listDtos = pacienteService.findAll();

@@ -38,6 +38,7 @@ public class Paciente implements Serializable {
 	private String nomePaciente;
 	private Integer idade;
 	private String sexo;
+	private Boolean arquivado;
 
 	@ManyToOne
 	@JoinColumn(name = "nutricionista_id")

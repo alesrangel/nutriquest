@@ -27,6 +27,7 @@ public class PacienteDTO implements Serializable {
 	private Integer idade;
 	@NotBlank
 	private String sexo;
+	private Boolean arquivado;
 
 //	private Nutricionista nutricionista;
 //
@@ -39,6 +40,7 @@ public class PacienteDTO implements Serializable {
 		nomePaciente = entity.getNomePaciente();
 		idade = entity.getIdade();
 		sexo = entity.getSexo();
+		arquivado = entity.getArquivado();
 //		nutricionista = entity.getNutricionista();
 //		avaliacoes = entity.getAvaliacoes();
 //		respostas = entity.getRespostas();
