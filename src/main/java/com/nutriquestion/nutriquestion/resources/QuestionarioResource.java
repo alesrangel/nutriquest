@@ -39,8 +39,8 @@ public class QuestionarioResource {
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<QuestionarioDTO> findById(@PathVariable Long id) {
-		QuestionarioDTO dto = questionarioService.findById(id);
+	public ResponseEntity<List<QuestaoDTO>> findByQestaoQuestionario(@PathVariable Long id) {
+		List<QuestaoDTO> dto = questionarioService.findByQestaoQuestionario(id);
 		return ResponseEntity.ok().body(dto);
 	}
 	

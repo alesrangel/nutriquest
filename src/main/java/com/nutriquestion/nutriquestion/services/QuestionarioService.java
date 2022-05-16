@@ -46,10 +46,9 @@ public class QuestionarioService {
 	}
 	
 	@Transactional(readOnly = true)
-	public QuestionarioDTO findById(Long id) {
-		Optional<Questionario> obj = questionarioRepository.findById(id);
-		Questionario entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-		return new QuestionarioDTO(entity);
+	public List<QuestaoDTO>  findByQestaoQuestionario(Long id) {
+		List<Questao>list = questionarioRepository.findByQestaoQuestionario(id);
+		return list.stream().map(x -> new QuestaoDTO(x)).collect(Collectors.toList());
 	}
 	
 	@Transactional

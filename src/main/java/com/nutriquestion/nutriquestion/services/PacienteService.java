@@ -83,7 +83,7 @@ public class PacienteService {
 	@Transactional
 	public PacienteDTO arquivar(Long id) {
 		try {
-			Paciente entity = pacienteRepository.getOne(id);
+			Paciente entity = pacienteRepository.getById(id);
 			entity.setArquivado(true);
 			entity = pacienteRepository.save(entity);
 			return new PacienteDTO(entity);
