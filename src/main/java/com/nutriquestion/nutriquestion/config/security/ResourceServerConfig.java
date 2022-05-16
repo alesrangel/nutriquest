@@ -40,11 +40,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		
-		// H2
-		if(Arrays.asList(env.getActiveProfiles()).contains("test")) {
-			http.headers().frameOptions().disable();
-		}
-		
+//		// H2
+//		if(Arrays.asList(env.getActiveProfiles()).contains("test")) {
+//			http.headers().frameOptions().disable();
+//		}
+		http.headers().disable();
 		http.authorizeRequests()
 		.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 		.antMatchers(PUBLIC).permitAll()
