@@ -80,6 +80,18 @@ public class PacienteService {
 		}
 	}
 	
+	@Transactional
+	public PacienteDTO arquivar(Long id) {
+		try {
+			Paciente entity = pacienteRepository.getOne(id);
+			entity.setArquivado(true);
+			entity = pacienteRepository.save(entity);
+			return new PacienteDTO(entity);
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id Not Found " + id);
+		}
+	}
+	
 	public void delete(Long id) {
 		try {
 			pacienteRepository.deleteById(id);

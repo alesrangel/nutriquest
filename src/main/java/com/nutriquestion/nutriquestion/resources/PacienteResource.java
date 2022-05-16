@@ -49,6 +49,13 @@ public class PacienteResource {
 		return ResponseEntity.ok().body(dto);
 	}
 	
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<PacienteDTO> arquivar(@PathVariable Long id) {
+		PacienteDTO newDto = pacienteService.arquivar(id);
+		return ResponseEntity.ok().body(newDto);
+	}
+	
+	
 	@GetMapping
 	public ResponseEntity<List<PacienteDTO>> findAll() {
 		List<PacienteDTO> listDtos = pacienteService.findAll();
