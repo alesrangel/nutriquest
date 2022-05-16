@@ -37,11 +37,10 @@ public class PacienteService {
 	private NutricionistaRepository nutricionistaRepository;
 	
 	@Transactional
-	public PacienteDTO insert(@Valid PacienteDTO dto) {
+	public PacienteDTO insert(Long id, @Valid PacienteDTO dto) {
 		Paciente entity = new Paciente();
-		String nutriNome  = SecurityContextHolder.getContext().getAuthentication().getName();
-		NutricionistaGetIdDTO nutriGet = nutricionistaService.findByNome(nutriNome);
-		Optional<Nutricionista> obj = nutricionistaRepository.findById(nutriGet.getId());
+//		NutricionistaGetIdDTO nutriGet = nutricionistaService.findById(null);
+		Optional<Nutricionista> obj = nutricionistaRepository.findById(id);
 		Nutricionista entityNutri = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
 		NutricionistaDTO nutriDTO = new NutricionistaDTO(entityNutri);
 		copyDTOToEntity(dto, entity);
