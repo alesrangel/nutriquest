@@ -72,7 +72,7 @@ public class QuestaoService {
 		entity.setId(dto.getId());
 		entity.setTitulo(dto.getTitulo());
 		entity.setResposta(dto.getResposta());
-		entity.setQuestionario(dto.getQuestionario());
+//		entity.setQuestionario(dto.getQuestionario());
 	}
 
 	@Transactional(readOnly = true)
