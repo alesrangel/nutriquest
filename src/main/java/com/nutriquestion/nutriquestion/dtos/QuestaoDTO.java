@@ -22,14 +22,16 @@ public class QuestaoDTO implements Serializable{
 	@Column(columnDefinition = "TEXT")
 	private String titulo;
 	
-//	private Questionario questionario;
+	private Questionario questionario;
 	
 	private Resposta resposta;
 	
 	public QuestaoDTO(Questao entity) {
 		id = entity.getId();
 		titulo = entity.getTitulo();
-//		questionario = entity.getQuestionario();
+		questionario.setId(entity.getId());
+		questionario.setDataCriacao(entity.getQuestionario().getDataCriacao());
+		questionario.setNutricionista(entity.getQuestionario().getNutricionista());
 		resposta = entity.getResposta();
 	}
 	
