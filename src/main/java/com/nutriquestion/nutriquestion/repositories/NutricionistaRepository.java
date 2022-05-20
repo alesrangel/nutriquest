@@ -13,7 +13,7 @@ public interface NutricionistaRepository extends JpaRepository<Nutricionista, Lo
 
 	Nutricionista findByEmail(String email);
 	
-	@Query(nativeQuery = true, value = "select * from tb_nutricionista where email = :email and senha = :senha")
+	@Query(nativeQuery = true, value = "select * from tb_nutricionista where tb_nutricionista.email = :email and tb_nutricionista.senha = :senha")
 	Optional<Nutricionista> findEmailSenha(String email, String senha);
 
 }
