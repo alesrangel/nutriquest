@@ -17,5 +17,5 @@ public interface QuestaoRepository extends JpaRepository<Questao, Long>{
 //	List<Questao> findAllQuestionario(Long questionarioId);
 //	
 	@Query(nativeQuery = true, value = "select * from tb_questao where tb_questao.questionario_id = :idQuest")
-	Optional<List<Questao>> findByQestaoQuestionario(@Param("idQuest") Long idQuestionario);
+	List<Questao> findByQestaoQuestionario(@Param("idQuest") Long idQuestionario);
 }

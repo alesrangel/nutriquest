@@ -77,7 +77,7 @@ public class QuestaoService {
 
 	@Transactional(readOnly = true)
 	public List<QuestaoDTO> findAllQuestionario(Long idQuestionario) {
-		Optional<List<Questao>>list = questaoRepository.findByQestaoQuestionario(idQuestionario);
-		return list.stream().map(x -> new QuestaoDTO((Questao) x)).collect(Collectors.toList());
+		List<Questao>list = questaoRepository.findByQestaoQuestionario(idQuestionario);
+		return list.stream().map(x -> new QuestaoDTO(x)).collect(Collectors.toList());
 	}
 }
