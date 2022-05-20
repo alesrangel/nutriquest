@@ -74,4 +74,10 @@ public class QuestaoService {
 //		entity.setResposta(dto.getResposta());
 		entity.setQuestionario(new Questionario(dto.getQuestionario()));
 	}
+
+	@Transactional(readOnly = true)
+	public List<QuestaoDTO> findAllQuestionario(Long idQuestionario) {
+		List<Questao>list = questaoRepository.findByQestaoQuestionario(idQuestionario);
+		return list.stream().map(x -> new QuestaoDTO(x)).collect(Collectors.toList());
+	}
 }

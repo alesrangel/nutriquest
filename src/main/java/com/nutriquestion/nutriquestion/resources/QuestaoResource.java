@@ -60,4 +60,10 @@ public class QuestaoResource {
 		List<QuestaoDTO> listDtos = questaoService.findAll(questionarioId);
 		return ResponseEntity.ok().body(listDtos);
 	}
+	
+	@GetMapping(value = "/{idQuestionario}")
+	public ResponseEntity<List<QuestaoDTO>> findAllQuestionario(@PathVariable Long idQuestionario){
+		List<QuestaoDTO> listDTO = questaoService.findAllQuestionario(idQuestionario);
+		return ResponseEntity.ok().body(listDTO);
+	}
 }
