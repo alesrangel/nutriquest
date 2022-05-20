@@ -62,22 +62,22 @@ public class QuestaoService {
 		}
 	}
 	
-	@Transactional(readOnly = true)
-	public List<QuestaoDTO> findAll(Long questionarioId) {
-		List<Questao> list = questaoRepository.findAllQuestionario(questionarioId);
-		return list.stream().map(x -> new QuestaoDTO(x)).collect(Collectors.toList());
-	}
+//	@Transactional(readOnly = true)
+//	public List<QuestaoDTO> findAll(Long questionarioId) {
+//		List<Questao> list = questaoRepository.findAllQuestionario(questionarioId);
+//		return list.stream().map(x -> new QuestaoDTO(x)).collect(Collectors.toList());
+//	}
 	
 	private void copyDTOToEntity(QuestaoDTO dto, Questao entity) {
 		entity.setId(dto.getId());
 		entity.setTitulo(dto.getTitulo());
-//		entity.setResposta(dto.getResposta());
-		entity.setQuestionario(new Questionario(dto.getQuestionario()));
+		entity.setResposta(dto.getResposta());
+		entity.setQuestionario(dto.getQuestionario());
 	}
 
 	@Transactional(readOnly = true)
 	public List<QuestaoDTO> findAllQuestionario(Long idQuestionario) {
-		List<Questao>list = questaoRepository.findByQestaoQuestionario(idQuestionario);
-		return list.stream().map(x -> new QuestaoDTO(x)).collect(Collectors.toList());
+		Optional<List<Questao>>list = questaoRepository.findByQestaoQuestionario(idQuestionario);
+		return list.stream().map(x -> new QuestaoDTO((Questao) x)).collect(Collectors.toList());
 	}
 }

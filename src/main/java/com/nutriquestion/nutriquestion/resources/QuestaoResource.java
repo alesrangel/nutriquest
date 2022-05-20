@@ -55,11 +55,11 @@ public class QuestaoResource {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@GetMapping(value = "/findAll/{questionarioId}")
-	public ResponseEntity<List<QuestaoDTO>> findAll(@PathVariable Long questionarioId) {
-		List<QuestaoDTO> listDtos = questaoService.findAll(questionarioId);
-		return ResponseEntity.ok().body(listDtos);
-	}
+//	@GetMapping(value = "/findAll/{questionarioId}")
+//	public ResponseEntity<List<QuestaoDTO>> findAll(@PathVariable Long questionarioId) {
+//		List<QuestaoDTO> listDtos = questaoService.findAll(questionarioId);
+//		return ResponseEntity.ok().body(listDtos);
+//	}
 	
 	@GetMapping(value = "/{idQuestionario}")
 	public ResponseEntity<List<QuestaoDTO>> findAllQuestionario(@PathVariable Long idQuestionario){
