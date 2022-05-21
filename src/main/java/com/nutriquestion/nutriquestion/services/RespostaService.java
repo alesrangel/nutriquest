@@ -36,9 +36,13 @@ public class RespostaService {
 	@Transactional
 	public RespostaDTO insert(Long idQuestao, @Valid RespostaDTO dto) {
 		Resposta entity = new Resposta();
-		entity = respostaRepository.save(entity);
 		copyDTOToEntity(dto, entity);
-		questaoRepository.adicionaResposta(idQuestao, entity.getId());
+		entity = respostaRepository.save(entity);
+//		questaoRepository.adicionaResposta(idQuestao, entity.getId().longValue());
+		Optional<Questao> obj = questaoRepository.findById(idQuestao);
+		Questao questaoEntity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+		questaoEntity.setResposta(entity);
+		questaoRepository.save(questaoEntity);
 		return new RespostaDTO(entity);
 	}
 	
