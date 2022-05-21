@@ -30,4 +30,9 @@ public class QuestaoDTO implements Serializable{
 	}
 	
 
+	public QuestaoDTO(Questao entity, Resposta respostaEntity) {
+		id = entity.getId();
+		titulo = entity.getTitulo();
+		resposta = respostaEntity;
+	}
 }

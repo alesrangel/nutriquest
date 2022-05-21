@@ -68,11 +68,12 @@ public class QuestaoService {
 		return list.stream().map(x -> new QuestaoDTO(x)).collect(Collectors.toList());
 	}
 	
-//	@Transactional(readOnly = true)
-//	public List<QuestaoDTO> findAll(Long questionarioId) {
-//		List<Questao> list = questaoRepository.findAllQuestionario(questionarioId);
-//		return list.stream().map(x -> new QuestaoDTO(x)).collect(Collectors.toList());
-//	}
+	@Transactional
+	public List<QuestaoDTO> adicionarResposta(Long idQuestionario, QuestaoDTO dto) {
+		List<Questao> list = questaoRepository.findByQestaoQuestionario(idQuestionario);
+		list.stream().map(x -> new QuestaoDTO(x, x.getResposta())).collect(Collectors.toList());
+		return list.stream().map(x -> new QuestaoDTO(x)).collect(Collectors.toList());
+	}
 	
 	private void copyDTOToEntity(QuestaoDTO dto, Questao entity) {
 		entity.setId(dto.getId());

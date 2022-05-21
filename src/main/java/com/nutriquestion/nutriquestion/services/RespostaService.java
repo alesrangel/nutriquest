@@ -36,10 +36,9 @@ public class RespostaService {
 	@Transactional
 	public RespostaDTO insert(Long idQuestao, @Valid RespostaDTO dto) {
 		Resposta entity = new Resposta();
-//		Optional<Questao> questao = questaoRepository.findById(idQuestao);
-		copyDTOToEntity(dto, entity);
 		entity = respostaRepository.save(entity);
-//		respostaRepository.fazerRelacao(entity.getId(), idQuestao);
+		copyDTOToEntity(dto, entity);
+		questaoRepository.adicionaResposta(idQuestao, entity.getId());
 		return new RespostaDTO(entity);
 	}
 	
