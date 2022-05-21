@@ -39,6 +39,7 @@ public class RespostaService {
 		copyDTOToEntity(dto, entity);
 		entity = respostaRepository.save(entity);
 //		questaoRepository.adicionaResposta(idQuestao, entity.getId().longValue());
+		
 		Optional<Questao> obj = questaoRepository.findById(idQuestao);
 		Questao questaoEntity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
 		questaoEntity.setResposta(entity);
