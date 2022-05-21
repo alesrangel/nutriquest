@@ -42,7 +42,8 @@ public class NutricionistaService implements UserDetailsService{
 	public NutricionistaDTO insert(NutricionistaInsertDTO dto) {
 		Nutricionista entity = new Nutricionista();
 		copyDTOToEntity(dto, entity);
-		entity.setSenha(passwordEncoder.encode(dto.getSenha()));
+//		entity.setSenha(passwordEncoder.encode(dto.getSenha()));
+		entity.setSenha(dto.getSenha());
 		entity = repository.save(entity);
 		return new NutricionistaDTO(entity);
 	}
