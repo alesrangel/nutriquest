@@ -21,13 +21,9 @@ public class RespostaDTO implements Serializable{
 	private Long id;
 	@Column(columnDefinition = "TEXT")
 	private String resposta;
-	private Paciente paciente;
-	private Questao questao;
 	
 	public RespostaDTO(Resposta entity) {
 		id = entity.getId();
 		resposta = entity.getResposta();
-		paciente = entity.getPaciente();
-		questao = entity.getQuestao();
 	}
 }

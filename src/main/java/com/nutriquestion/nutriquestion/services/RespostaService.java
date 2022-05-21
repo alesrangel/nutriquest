@@ -34,12 +34,12 @@ public class RespostaService {
 	private PacienteRepository pacienteRepository;
 
 	@Transactional
-	public RespostaDTO insert(Long idQuestionario, @Valid RespostaDTO dto) {
+	public RespostaDTO insert(Long idQuestao, @Valid RespostaDTO dto) {
 		Resposta entity = new Resposta();
-		Questao questao = questaoRepository.getOne(idQuestionario);
+//		Optional<Questao> questao = questaoRepository.findById(idQuestao);
 		copyDTOToEntity(dto, entity);
 		entity = respostaRepository.save(entity);
-		respostaRepository.fazerRelacao(entity.getId(),  questao.getId());
+//		respostaRepository.fazerRelacao(entity.getId(), idQuestao);
 		return new RespostaDTO(entity);
 	}
 	
@@ -73,8 +73,6 @@ public class RespostaService {
 	}
 	
 	private void copyDTOToEntity(RespostaDTO dto, Resposta entity) {
-		entity.setPaciente(dto.getPaciente());
-		entity.setQuestao(dto.getQuestao());
 		entity.setResposta(dto.getResposta());
 	}
 

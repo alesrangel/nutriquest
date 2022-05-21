@@ -28,9 +28,9 @@ public class RespostaResource {
 	@Autowired
 	private RespostaService respostaService;
 	
-	@PostMapping(value = "/{idQuestionario}")
-	public ResponseEntity<RespostaDTO> insert(@PathVariable Long idPaciente, @PathVariable Long idQuestionario ,@Valid @RequestBody RespostaDTO dto) {
-		RespostaDTO newdto = respostaService.insert(idQuestionario ,dto);
+	@PostMapping(value = "/{idQuestao}")
+	public ResponseEntity<RespostaDTO> insert(@PathVariable Long idQuestao ,@Valid @RequestBody RespostaDTO dto) {
+		RespostaDTO newdto = respostaService.insert(idQuestao ,dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(newdto.getId()).toUri();
 		return ResponseEntity.created(uri).body(newdto);

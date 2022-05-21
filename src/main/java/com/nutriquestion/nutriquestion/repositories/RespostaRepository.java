@@ -12,4 +12,5 @@ public interface RespostaRepository extends JpaRepository<Resposta, Long>{
 	
 	@Query(nativeQuery = true, value = "UPDATE tb_questao SET resposta_id = :respostaId WHERE tb_questao.id = :questaoId")
 	void fazerRelacao(Long respostaId, Long questaoId);
+	
 }

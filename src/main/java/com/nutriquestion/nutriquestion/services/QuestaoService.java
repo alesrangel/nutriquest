@@ -44,7 +44,7 @@ public class QuestaoService {
 	public QuestaoDTO update(Long id, QuestaoDTO dto) {
 		try {
 			Questao entity = questaoRepository.getOne(id);
-			copyDTOToEntity(dto, entity);
+			copyDTOToEntityUpdate(dto, entity);
 			entity = questaoRepository.save(entity);
 			return new QuestaoDTO(entity);
 		} catch (EntityNotFoundException e) {
@@ -61,6 +61,12 @@ public class QuestaoService {
 			throw new DatabaseException("Integrity violation");
 		}
 	}
+
+	@Transactional(readOnly = true)
+	public List<QuestaoDTO> findAllQuestionario(Long idQuestionario) {
+		List<Questao>list = questaoRepository.findByQestaoQuestionario(idQuestionario);
+		return list.stream().map(x -> new QuestaoDTO(x)).collect(Collectors.toList());
+	}
 	
 //	@Transactional(readOnly = true)
 //	public List<QuestaoDTO> findAll(Long questionarioId) {
@@ -74,10 +80,11 @@ public class QuestaoService {
 //		entity.setResposta(dto.getResposta());
 //		entity.setQuestionario(dto.getQuestionario());
 	}
-
-	@Transactional(readOnly = true)
-	public List<QuestaoDTO> findAllQuestionario(Long idQuestionario) {
-		List<Questao>list = questaoRepository.findByQestaoQuestionario(idQuestionario);
-		return list.stream().map(x -> new QuestaoDTO(x)).collect(Collectors.toList());
+	
+	private void copyDTOToEntityUpdate(QuestaoDTO dto, Questao entity) {
+		entity.setId(dto.getId());
+		entity.setTitulo(dto.getTitulo());
+		entity.setResposta(dto.getResposta());	
 	}
+
 }
