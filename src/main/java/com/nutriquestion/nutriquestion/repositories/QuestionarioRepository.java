@@ -22,5 +22,9 @@ public interface QuestionarioRepository extends JpaRepository<Questionario, Long
 	@Query(nativeQuery = true, value = "SELECT * FROM tb_questao WHere tb_questao.questionario_id = :questionarioId")
 	List<Questao> findQuestionario(Long questionarioId);
 	
+	@Query(nativeQuery = true, value = "select distinct(tb_questionario.*) from tb_resposta, tb_questao, tb_questionario where tb_resposta.paciente_id = :idPaciente "
+			+ "and tb_questao.resposta_id = tb_resposta.id and tb_questao.questionario_id = tb_questionario.id")
+	List<Questionario> findRespondidosPorUsuariio(Long idPaciente);
+	
 	
 }
