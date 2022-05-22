@@ -10,15 +10,15 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nutriquestion.nutriquestion.dtos.NutricionistaDTO;
-import com.nutriquestion.nutriquestion.dtos.NutricionistaGetIdDTO;
 import com.nutriquestion.nutriquestion.dtos.PacienteDTO;
+import com.nutriquestion.nutriquestion.dtos.QuestionarioDTO;
 import com.nutriquestion.nutriquestion.entities.Nutricionista;
 import com.nutriquestion.nutriquestion.entities.Paciente;
+import com.nutriquestion.nutriquestion.entities.Questionario;
 import com.nutriquestion.nutriquestion.repositories.NutricionistaRepository;
 import com.nutriquestion.nutriquestion.repositories.PacienteRepository;
 import com.nutriquestion.nutriquestion.services.exceptions.DatabaseException;
@@ -69,6 +69,12 @@ public class PacienteService {
 	}
 	
 	@Transactional(readOnly = true)
+	public List<QuestionarioDTO> questionarioRespondidoPorPaciente(Long idPaciente) {
+		List<Questionario> list = pacienteRepository.findRespondidosPorUsuariio(idPaciente);
+		return null;
+	}
+	
+	@Transactional(readOnly = true)
 	public List<PacienteDTO> findAll() {
 		List<Paciente> list = pacienteRepository.findAll();
 		return list.stream().map(x -> new PacienteDTO(x)).collect(Collectors.toList());
@@ -113,6 +119,8 @@ public class PacienteService {
 		entity.setIdade(dto.getIdade());
 		entity.setSexo(dto.getSexo());
 	}
+
+	
 
 
 

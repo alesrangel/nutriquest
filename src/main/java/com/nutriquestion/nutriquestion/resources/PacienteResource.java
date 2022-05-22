@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.nutriquestion.nutriquestion.dtos.PacienteDTO;
+import com.nutriquestion.nutriquestion.dtos.QuestionarioDTO;
 import com.nutriquestion.nutriquestion.services.PacienteService;
 
 @RestController
@@ -78,6 +79,12 @@ public class PacienteResource {
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		pacienteService.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping(value = "/respondidos/{idPaciente}")
+	public ResponseEntity<List<QuestionarioDTO>> findArquivados(@PathVariable Long idPaciente) {
+		List<QuestionarioDTO> dto = pacienteService.questionarioRespondidoPorPaciente(idPaciente);
+		return ResponseEntity.ok().body(dto);
 	}
 	
 	
