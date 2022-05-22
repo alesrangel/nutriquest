@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.nutriquestion.nutriquestion.dtos.QuestaoDTO;
+import com.nutriquestion.nutriquestion.dtos.QuestaoGetDTO;
 import com.nutriquestion.nutriquestion.services	.QuestaoService;
 
 @RestController
@@ -61,9 +62,9 @@ public class QuestaoResource {
 		return ResponseEntity.ok().body(listDTO);
 	}
 	
-	@PutMapping(value = "/findAll/{idQuestionario}")
-	public ResponseEntity<List<QuestaoDTO>> adicionaResposta(@PathVariable Long idQuestionario, @Valid @RequestBody QuestaoDTO dto){
-		List<QuestaoDTO> listDTO = questaoService.adicionarResposta(idQuestionario, dto);
+	@GetMapping(value = "/findAll/respostas/{idQuestionario}")
+	public ResponseEntity<List<QuestaoGetDTO>> questoesRespondidas(@PathVariable Long idQuestionario){
+		List<QuestaoGetDTO> listDTO = questaoService.questoesRespondidas(idQuestionario);
 		return ResponseEntity.ok().body(listDTO);
 	}
 }

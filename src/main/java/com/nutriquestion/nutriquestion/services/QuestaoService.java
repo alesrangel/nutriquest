@@ -1,5 +1,6 @@
 package com.nutriquestion.nutriquestion.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -13,8 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nutriquestion.nutriquestion.dtos.QuestaoDTO;
+import com.nutriquestion.nutriquestion.dtos.QuestaoGetDTO;
 import com.nutriquestion.nutriquestion.entities.Questao;
-import com.nutriquestion.nutriquestion.entities.Questionario;
+import com.nutriquestion.nutriquestion.entities.Resposta;
 import com.nutriquestion.nutriquestion.repositories.QuestaoRepository;
 import com.nutriquestion.nutriquestion.services.exceptions.DatabaseException;
 import com.nutriquestion.nutriquestion.services.exceptions.ResourceNotFoundException;
@@ -69,10 +71,9 @@ public class QuestaoService {
 	}
 	
 	@Transactional
-	public List<QuestaoDTO> adicionarResposta(Long idQuestionario, QuestaoDTO dto) {
+	public List<QuestaoGetDTO> questoesRespondidas(Long idQuestionario) {
 		List<Questao> list = questaoRepository.findByQestaoQuestionario(idQuestionario);
-		list.stream().map(x -> new QuestaoDTO(x, x.getResposta())).collect(Collectors.toList());
-		return list.stream().map(x -> new QuestaoDTO(x)).collect(Collectors.toList());
+		return list.stream().map(x -> new QuestaoGetDTO(x)).collect(Collectors.toList());
 	}
 	
 	private void copyDTOToEntity(QuestaoDTO dto, Questao entity) {
@@ -85,7 +86,6 @@ public class QuestaoService {
 	private void copyDTOToEntityUpdate(QuestaoDTO dto, Questao entity) {
 		entity.setId(dto.getId());
 		entity.setTitulo(dto.getTitulo());
-		entity.setResposta(dto.getResposta());	
 	}
 
 }
