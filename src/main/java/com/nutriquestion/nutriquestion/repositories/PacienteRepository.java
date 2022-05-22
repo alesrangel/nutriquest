@@ -13,4 +13,7 @@ public interface PacienteRepository extends JpaRepository<Paciente, Long>{
 
 	@Query(nativeQuery = true, value = "SELECT * FROM tb_paciente WHERE tb_paciente.arquivado = true")
 	List<Paciente> findArquivados();
+	
+	@Query(nativeQuery = true, value = "SELECT * FROM tb_paciente WHERE tb_paciente.nutricionista_id = :nutricionistaId")
+	List<Paciente> findByNutricionista(Long nutricionistaId);
 }
