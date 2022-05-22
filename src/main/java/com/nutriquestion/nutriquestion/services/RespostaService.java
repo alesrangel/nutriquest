@@ -32,17 +32,20 @@ public class RespostaService {
 	
 	@Autowired
 	private PacienteRepository pacienteRepository;
+	
 
 	@Transactional
-	public RespostaDTO insert(Long idQuestao, @Valid RespostaDTO dto) {
+	public RespostaDTO insert(Long idQuestao, Long idPaciente, @Valid RespostaDTO dto) {
 		Resposta entity = new Resposta();
+		Optional<Paciente> objPaciente = pacienteRepository.findById(idPaciente);
+		Paciente pacienteEntity = objPaciente.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
 		copyDTOToEntity(dto, entity);
+		entity.setPaciente(pacienteEntity);
 		entity = respostaRepository.save(entity);
-//		questaoRepository.adicionaResposta(idQuestao, entity.getId().longValue());
-		
 		Optional<Questao> obj = questaoRepository.findById(idQuestao);
 		Questao questaoEntity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
 		questaoEntity.setResposta(entity);
+		
 		questaoRepository.save(questaoEntity);
 		return new RespostaDTO(entity);
 	}

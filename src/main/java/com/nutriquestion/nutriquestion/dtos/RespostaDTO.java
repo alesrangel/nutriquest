@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 
-import com.nutriquestion.nutriquestion.entities.Paciente;
-import com.nutriquestion.nutriquestion.entities.Questao;
 import com.nutriquestion.nutriquestion.entities.Resposta;
 
 import lombok.AllArgsConstructor;
@@ -22,8 +20,11 @@ public class RespostaDTO implements Serializable{
 	@Column(columnDefinition = "TEXT")
 	private String resposta;
 	
+	private PacienteDTO paciente;
+	
 	public RespostaDTO(Resposta entity) {
 		id = entity.getId();
 		resposta = entity.getResposta();
+		paciente = new PacienteDTO(entity.getPaciente());
 	}
 }
