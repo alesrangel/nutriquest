@@ -87,8 +87,8 @@ public class PacienteService {
 	@Transactional(readOnly = true)
 	public List<QuestionarioDTO> questionarioRespondidoPorPaciente(Long idPaciente) {
 		List<Questionario> list = questionarioRepository.findRespondidosPorUsuariio(idPaciente);
-		return null;
-	}
+		return list.stream().map(x -> new QuestionarioDTO(x)).collect(Collectors.toList());
+	};
 	
 	@Transactional(readOnly = true)
 	public List<PacienteDTO> findAll() {
