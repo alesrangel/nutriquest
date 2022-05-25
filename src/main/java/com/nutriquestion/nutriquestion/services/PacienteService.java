@@ -49,6 +49,7 @@ public class PacienteService {
 		NutricionistaDTO nutriDTO = new NutricionistaDTO(entityNutri);
 		copyDTOToEntity(dto, entity);
 		entity.setNutricionista(NutricionistaDTO.DtoToEntity(nutriDTO));
+		entity.setArquivado(false);
 		entity = pacienteRepository.save(entity);
 		return new PacienteDTO(entity);
 	}
