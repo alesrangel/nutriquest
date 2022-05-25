@@ -94,8 +94,7 @@ public class NutricionistaService implements UserDetailsService{
 		entity.setNome(dto.getNome());
 		entity.setEmail(dto.getEmail());
 		entity.setCrn(dto.getCrn());
-		if(!dto.getSenha().isEmpty())
-			entity.setSenha(dto.getSenha());
+		entity.setSenha(dto.getSenha());
 	}
 
 	@Override
