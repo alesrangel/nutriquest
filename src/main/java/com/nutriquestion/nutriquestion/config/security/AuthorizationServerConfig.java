@@ -54,17 +54,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-		security.tokenKeyAccess("permitAll()").checkTokenAccess("permitAll()");
+		security.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
 	}
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory()
-				.withClient(clientId)
-				.secret(passwordEncoder.encode(clientSecret))
-				.scopes("read", "write")
-				.authorizedGrantTypes("password", "refresh_token")
-				.accessTokenValiditySeconds(jwtDuration)
+		clients.inMemory().withClient(clientId).secret(passwordEncoder.encode(clientSecret))
+				.scopes("read", "write").authorizedGrantTypes("password", "refresh_token").accessTokenValiditySeconds(jwtDuration)
 				.refreshTokenValiditySeconds(jwtDuration);
 	}
 
@@ -74,22 +70,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		TokenEnhancerChain chain = new TokenEnhancerChain();
 		chain.setTokenEnhancers(Arrays.asList(accessTokenConverter, tokenEnhancer));
 		
-		endpoints.authenticationManager(authenticationManager)
-			.userDetailsService(userDetailsService)
-			.tokenStore(tokenStore)
-			.reuseRefreshTokens(false)
-			.accessTokenConverter(jwtAccessTokenConverter())
-			.tokenEnhancer(chain);
+		endpoints.authenticationManager(authenticationManager).tokenStore(tokenStore)
+				.accessTokenConverter(accessTokenConverter).tokenEnhancer(chain)
+				.userDetailsService(userDetailsService);
 
-//		endpoints.authenticationManager(authenticationManager).tokenStore(tokenStore)
-//		.accessTokenConverter(accessTokenConverter).tokenEnhancer(chain)
-//		.userDetailsService(userDetailsService);
 	}
-	
-    @Bean
-    public JwtAccessTokenConverter jwtAccessTokenConverter() throws Exception {
-        JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
-        jwtAccessTokenConverter.setSigningKey("nutriquest");
-        return jwtAccessTokenConverter;
-    }
 }

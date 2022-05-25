@@ -15,21 +15,24 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class QuestaoDTO implements Serializable{
+public class QuestaoGetDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
 	@Column(columnDefinition = "TEXT")
 	private String titulo;
+	private RespostaDTO resposta;
 	
-	public QuestaoDTO(Questao entity) {
+	public QuestaoGetDTO(Questao entity) {
 		id = entity.getId();
 		titulo = entity.getTitulo();
+		resposta = new RespostaDTO(entity.getResposta());
 	}
 	
 
-	public QuestaoDTO(Questao entity, Resposta respostaEntity) {
+	public QuestaoGetDTO(Questao entity, Resposta respostaEntity) {
 		id = entity.getId();
 		titulo = entity.getTitulo();
+		resposta = new RespostaDTO(respostaEntity);
 	}
 }

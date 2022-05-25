@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,11 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.nutriquestion.nutriquestion.dtos.QuestaoDTO;
 import com.nutriquestion.nutriquestion.dtos.QuestionarioDTO;
 import com.nutriquestion.nutriquestion.services.QuestionarioService;
 
 @RestController
 @RequestMapping(value = "/questionario")
+@CrossOrigin
 public class QuestionarioResource {
 
 	@Autowired
@@ -36,14 +39,20 @@ public class QuestionarioResource {
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<QuestionarioDTO> findById(@PathVariable Long id) {
-		QuestionarioDTO dto = questionarioService.findById(id);
+	public ResponseEntity<List<QuestaoDTO>> findByQestaoQuestionario(@PathVariable Long id) {
+		List<QuestaoDTO> dto = questionarioService.findByQestaoQuestionario(id);
 		return ResponseEntity.ok().body(dto);
 	}
 	
 	@GetMapping(value = "/findAll/{nutricionistaId}")
 	public ResponseEntity<List<QuestionarioDTO>> findAll(@PathVariable Long nutricionistaId) {
 		List<QuestionarioDTO> listDtos = questionarioService.findAll(nutricionistaId);
+		return ResponseEntity.ok().body(listDtos);
+	}
+	
+	@GetMapping(value = "/findQuestionario/{questionarioId}")
+	public ResponseEntity<List<QuestaoDTO>> findQuestionario(@PathVariable Long questionarioId) {
+		List<QuestaoDTO> listDtos = questionarioService.findQuestionario(questionarioId);
 		return ResponseEntity.ok().body(listDtos);
 	}
 	

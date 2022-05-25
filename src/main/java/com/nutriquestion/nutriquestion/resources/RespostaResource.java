@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,21 +17,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.nutriquestion.nutriquestion.dtos.NutricionistaDTO;
-import com.nutriquestion.nutriquestion.dtos.NutricionistaGetIdDTO;
 import com.nutriquestion.nutriquestion.dtos.RespostaDTO;
 import com.nutriquestion.nutriquestion.services.RespostaService;
 
 @RestController
 @RequestMapping(value = "/resposta")
+@CrossOrigin
 public class RespostaResource {
 
 	@Autowired
 	private RespostaService respostaService;
 	
-	@PostMapping
-	public ResponseEntity<RespostaDTO> insert(@Valid @RequestBody RespostaDTO dto) {
-		RespostaDTO newdto = respostaService.insert(dto);
+	@PostMapping(value = "/{idQuestao}/{idPaciente}")
+	public ResponseEntity<RespostaDTO> insert(@PathVariable Long idQuestao, @PathVariable Long idPaciente ,@Valid @RequestBody RespostaDTO dto) {
+		RespostaDTO newdto = respostaService.insert(idQuestao,idPaciente ,dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(newdto.getId()).toUri();
 		return ResponseEntity.created(uri).body(newdto);

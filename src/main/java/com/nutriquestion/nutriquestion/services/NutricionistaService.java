@@ -42,7 +42,8 @@ public class NutricionistaService implements UserDetailsService{
 	public NutricionistaDTO insert(NutricionistaInsertDTO dto) {
 		Nutricionista entity = new Nutricionista();
 		copyDTOToEntity(dto, entity);
-		entity.setSenha(passwordEncoder.encode(dto.getSenha()));
+//		entity.setSenha(passwordEncoder.encode(dto.getSenha()));
+		entity.setSenha(dto.getSenha());
 		entity = repository.save(entity);
 		return new NutricionistaDTO(entity);
 	}
@@ -104,5 +105,12 @@ public class NutricionistaService implements UserDetailsService{
 		}
 		logger.info("User found: " + username);
 		return (UserDetails) nutricionista;
+	}
+
+	@Transactional(readOnly = true)
+	public NutricionistaGetIdDTO loginEmailSenha(String email, String senha) {
+		Optional<Nutricionista> obj = repository.findEmailSenha(email, senha);
+		Nutricionista entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+		return new NutricionistaGetIdDTO(entity);
 	}
 }

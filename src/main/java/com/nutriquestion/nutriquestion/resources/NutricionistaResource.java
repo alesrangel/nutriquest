@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ import com.nutriquestion.nutriquestion.services.NutricionistaService;
 
 @RestController
 @RequestMapping(value = "/usuario/nutricionista")
+@CrossOrigin
 public class NutricionistaResource {
 
 	@Autowired
@@ -41,6 +43,13 @@ public class NutricionistaResource {
 		NutricionistaGetIdDTO dto = nutricionistaService.findById(id);
 		return ResponseEntity.ok().body(dto);
 	}
+	
+	@GetMapping(value = "/{email}/{senha}")
+	public ResponseEntity<NutricionistaGetIdDTO> loginEmailSenha(@PathVariable String email, @PathVariable String senha) {
+		NutricionistaGetIdDTO dto = nutricionistaService.loginEmailSenha(email, senha);
+		return ResponseEntity.ok().body(dto);
+	}
+	
 	
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<NutricionistaDTO> update(@PathVariable Long id, @Valid @RequestBody NutricionistaDTO dto) {

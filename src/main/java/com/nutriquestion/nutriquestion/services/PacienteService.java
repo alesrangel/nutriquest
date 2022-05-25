@@ -10,17 +10,18 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nutriquestion.nutriquestion.dtos.NutricionistaDTO;
-import com.nutriquestion.nutriquestion.dtos.NutricionistaGetIdDTO;
 import com.nutriquestion.nutriquestion.dtos.PacienteDTO;
+import com.nutriquestion.nutriquestion.dtos.QuestionarioDTO;
 import com.nutriquestion.nutriquestion.entities.Nutricionista;
 import com.nutriquestion.nutriquestion.entities.Paciente;
+import com.nutriquestion.nutriquestion.entities.Questionario;
 import com.nutriquestion.nutriquestion.repositories.NutricionistaRepository;
 import com.nutriquestion.nutriquestion.repositories.PacienteRepository;
+import com.nutriquestion.nutriquestion.repositories.QuestionarioRepository;
 import com.nutriquestion.nutriquestion.services.exceptions.DatabaseException;
 import com.nutriquestion.nutriquestion.services.exceptions.ResourceNotFoundException;
 
@@ -36,12 +37,14 @@ public class PacienteService {
 	@Autowired
 	private NutricionistaRepository nutricionistaRepository;
 	
+	@Autowired
+	private QuestionarioRepository questionarioRepository;
+	
 	@Transactional
-	public PacienteDTO insert(@Valid PacienteDTO dto) {
+	public PacienteDTO insert(Long id, @Valid PacienteDTO dto) {
 		Paciente entity = new Paciente();
-		String nutriNome  = SecurityContextHolder.getContext().getAuthentication().getName();
-		NutricionistaGetIdDTO nutriGet = nutricionistaService.findByNome(nutriNome);
-		Optional<Nutricionista> obj = nutricionistaRepository.findById(nutriGet.getId());
+//		NutricionistaGetIdDTO nutriGet = nutricionistaService.findById(null);
+		Optional<Nutricionista> obj = nutricionistaRepository.findById(id);
 		Nutricionista entityNutri = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
 		NutricionistaDTO nutriDTO = new NutricionistaDTO(entityNutri);
 		copyDTOToEntity(dto, entity);
@@ -58,6 +61,24 @@ public class PacienteService {
 	}
 	
 	@Transactional(readOnly = true)
+	public List<PacienteDTO> findByNutricionista(Long nutricionistaId) {
+		List<Paciente> list = pacienteRepository.findByNutricionista(nutricionistaId);
+		return list.stream().map(x -> new PacienteDTO(x)).collect(Collectors.toList());
+	}
+	
+	@Transactional(readOnly = true)
+	public List<PacienteDTO> findArquivados() {
+		List<Paciente> list = pacienteRepository.findArquivados();
+		return list.stream().map(x -> new PacienteDTO(x)).collect(Collectors.toList());
+	}
+	
+	@Transactional(readOnly = true)
+	public List<QuestionarioDTO> questionarioRespondidoPorPaciente(Long idPaciente) {
+		List<Questionario> list = questionarioRepository.findRespondidosPorUsuariio(idPaciente);
+		return list.stream().map(x -> new QuestionarioDTO(x)).collect(Collectors.toList());
+	}
+	
+	@Transactional(readOnly = true)
 	public List<PacienteDTO> findAll() {
 		List<Paciente> list = pacienteRepository.findAll();
 		return list.stream().map(x -> new PacienteDTO(x)).collect(Collectors.toList());
@@ -68,6 +89,18 @@ public class PacienteService {
 		try {
 			Paciente entity = pacienteRepository.getOne(id);
 			copyDTOToEntity(dto, entity);
+			entity = pacienteRepository.save(entity);
+			return new PacienteDTO(entity);
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id Not Found " + id);
+		}
+	}
+	
+	@Transactional
+	public PacienteDTO arquivar(Long id) {
+		try {
+			Paciente entity = pacienteRepository.getById(id);
+			entity.setArquivado(true);
 			entity = pacienteRepository.save(entity);
 			return new PacienteDTO(entity);
 		} catch (EntityNotFoundException e) {
@@ -90,6 +123,8 @@ public class PacienteService {
 		entity.setIdade(dto.getIdade());
 		entity.setSexo(dto.getSexo());
 	}
+
+	
 
 
 
