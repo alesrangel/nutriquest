@@ -24,6 +24,7 @@ public class NutricionistaDTO implements Serializable{
 	private String email;
 	@NotBlank(message = "Campo obrigatorio")
 	private String crn;	
+	private String senha;
 	
 	
 	public NutricionistaDTO(Nutricionista entity) {
@@ -31,6 +32,7 @@ public class NutricionistaDTO implements Serializable{
 		nome = entity.getNome();
 		email = entity.getEmail();
 		crn = entity.getCrn();
+		senha = entity.getSenha();
 	}
 	
 	public static Nutricionista DtoToEntity(NutricionistaDTO dto) {
@@ -39,6 +41,7 @@ public class NutricionistaDTO implements Serializable{
 		entity.setNome(dto.getNome());
 		entity.setEmail(dto.getEmail());
 		entity.setCrn(dto.getCrn());
+		entity.setSenha(dto.getSenha());
 		return entity;
 	}
 	

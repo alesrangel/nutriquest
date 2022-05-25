@@ -56,6 +56,12 @@ public class PacienteResource {
 		return ResponseEntity.ok().body(dto);
 	}
 	
+	@GetMapping(value = "/desarquivados/{pacienteId}")
+	public ResponseEntity<PacienteDTO> desarquivar(@PathVariable Long pacienteId) {
+		PacienteDTO dto = pacienteService.desarquivar(pacienteId);
+		return ResponseEntity.ok().body(dto);
+	}
+	
 	@GetMapping(value = "/arquivar/{id}")
 	public ResponseEntity<PacienteDTO> arquivar(@PathVariable Long id) {
 		PacienteDTO newDto = pacienteService.arquivar(id);

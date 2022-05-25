@@ -72,6 +72,13 @@ public class PacienteService {
 		return list.stream().map(x -> new PacienteDTO(x)).collect(Collectors.toList());
 	}
 	
+	@Transactional
+	public PacienteDTO desarquivar(Long pacienteId) {
+		Paciente paciente = pacienteRepository.desarquivar(pacienteId);
+		return new PacienteDTO(paciente);
+	}
+	
+	
 	@Transactional(readOnly = true)
 	public List<QuestionarioDTO> questionarioRespondidoPorPaciente(Long idPaciente) {
 		List<Questionario> list = questionarioRepository.findRespondidosPorUsuariio(idPaciente);
