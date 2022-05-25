@@ -50,9 +50,9 @@ public class PacienteResource {
 		return ResponseEntity.ok().body(dto);
 	}
 	
-	@GetMapping(value = "/arquivados")
-	public ResponseEntity<List<PacienteDTO>> findArquivados() {
-		List<PacienteDTO> dto = pacienteService.findArquivados();
+	@GetMapping(value = "/arquivados/{idNutricionista}")
+	public ResponseEntity<List<PacienteDTO>> findArquivadosNutricionista(@PathVariable Long idNutricionista) {
+		List<PacienteDTO> dto = pacienteService.findArquivados(idNutricionista);
 		return ResponseEntity.ok().body(dto);
 	}
 	

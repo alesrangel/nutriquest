@@ -67,8 +67,8 @@ public class PacienteService {
 	}
 	
 	@Transactional(readOnly = true)
-	public List<PacienteDTO> findArquivados() {
-		List<Paciente> list = pacienteRepository.findArquivados();
+	public List<PacienteDTO> findArquivados(Long idNutricionista) {
+		List<Paciente> list = pacienteRepository.findArquivados(idNutricionista);
 		return list.stream().map(x -> new PacienteDTO(x)).collect(Collectors.toList());
 	}
 	
