@@ -21,4 +21,7 @@ public interface QuestaoRepository extends JpaRepository<Questao, Long>{
 	
 	@Query(nativeQuery = true, value = "UPDATE tb_questao SET resposta_id = :respostaId  WHERE tb_questao.id = :idQuestao")
 	Questao adicionaResposta(Long idQuestao, Long respostaId);
+
+	
+
 }

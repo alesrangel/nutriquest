@@ -21,6 +21,7 @@ import com.nutriquestion.nutriquestion.entities.Paciente;
 import com.nutriquestion.nutriquestion.entities.Questionario;
 import com.nutriquestion.nutriquestion.repositories.NutricionistaRepository;
 import com.nutriquestion.nutriquestion.repositories.PacienteRepository;
+import com.nutriquestion.nutriquestion.repositories.QuestionarioRepository;
 import com.nutriquestion.nutriquestion.services.exceptions.DatabaseException;
 import com.nutriquestion.nutriquestion.services.exceptions.ResourceNotFoundException;
 
@@ -36,6 +37,9 @@ public class PacienteService {
 	@Autowired
 	private NutricionistaRepository nutricionistaRepository;
 	
+	@Autowired
+	private QuestionarioRepository questionarioRepository;
+	
 	@Transactional
 	public PacienteDTO insert(Long id, @Valid PacienteDTO dto) {
 		Paciente entity = new Paciente();
@@ -45,7 +49,6 @@ public class PacienteService {
 		NutricionistaDTO nutriDTO = new NutricionistaDTO(entityNutri);
 		copyDTOToEntity(dto, entity);
 		entity.setNutricionista(NutricionistaDTO.DtoToEntity(nutriDTO));
-		entity.setArquivado(false);
 		entity = pacienteRepository.save(entity);
 		return new PacienteDTO(entity);
 	}
@@ -71,7 +74,7 @@ public class PacienteService {
 	
 	@Transactional(readOnly = true)
 	public List<QuestionarioDTO> questionarioRespondidoPorPaciente(Long idPaciente) {
-		List<Questionario> list = pacienteRepository.findRespondidosPorUsuariio(idPaciente);
+		List<Questionario> list = questionarioRepository.findRespondidosPorUsuariio(idPaciente);
 		return null;
 	}
 	
