@@ -74,8 +74,12 @@ public class PacienteService {
 	
 	@Transactional
 	public PacienteDTO desarquivar(Long pacienteId) {
-		Paciente paciente = pacienteRepository.desarquivar(pacienteId);
-		return new PacienteDTO(paciente);
+		Optional<Paciente> obj = pacienteRepository.findById(pacienteId);
+		Paciente entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+		entity.setArquivado(false);
+		entity = pacienteRepository.save(entity);
+		return new PacienteDTO(entity);
+		
 	}
 	
 	

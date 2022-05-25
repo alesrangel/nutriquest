@@ -17,8 +17,4 @@ public interface PacienteRepository extends JpaRepository<Paciente, Long>{
 	@Query(nativeQuery = true, value = "SELECT * FROM tb_paciente WHERE tb_paciente.nutricionista_id = :nutricionistaId and tb_paciente.arquivado = false")
 	List<Paciente> findByNutricionista(Long nutricionistaId);
 
-	@Query(nativeQuery = true,  value = "UPDATE tb_paciente SET arquivado = false WHERE tb_paciente.id = :pacienteId")
-	Paciente desarquivar(Long pacienteId);
-
-	
 }
